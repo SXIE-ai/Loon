@@ -4,7 +4,7 @@
 ^https?:\/\/hdgateway\.zto\.com\/getAdInfo reject-dict
 ^https?:\/\/hdgateway\.zto\.com\/listJumperShow reject-dict
 # > 中信银行
-# hostname = wap.bank.ecitic.com, imcs.citicbank.com
+hostname = wap.bank.ecitic.com, imcs.citicbank.com
 ^https?:\/\/wap.bank\.ecitic\.com:6443\/NMBFOServer\/cbframework\.do\?act=CUBEPAGEDATA reject-200
 # 开屏广告
 ^https:\/\/imcs\.citicbank\.com\/cloud\/([a-fA-F0-9]{32})\.(jpg|png) reject
