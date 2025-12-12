@@ -1,9 +1,12 @@
 /*
  *
 
-[rewrite_local]
-自用去广告
-#广告
+#!name=去广告
+#!desc=自用去广告
+#!author=XIE-ai
+#!homepage=https://github.com/SXIE-ai/Loon
+
+[Rewrite]
 xhlld.*\.shop\/view\/(adList|getVideoInfoAdList) url reject
 ^https?:\/\/hdgateway\.zto\.com\/getApolloConfig reject-dict
 ^https?:\/\/hdgateway\.zto\.com\/track reject-dict
