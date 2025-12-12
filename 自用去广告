@@ -1,7 +1,7 @@
 /*
  *
 
-[rewrite_local]
+
 
 # 微信小程序净化
 ^https?:\/\/hdgateway\.zto\.com\/getApolloConfig reject-dict
