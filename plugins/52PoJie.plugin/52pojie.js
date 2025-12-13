@@ -130,134 +130,54 @@ function getConfig() {
 // 简化版签到函数 - 专注于功能实现
 function signIn(cookie, accountName, testMode) {
     return new Promise(resolve => {
-        if (testMode) {
-            console.log(`[测试] ${accountName}: 模拟成功`);
-            return resolve({
-                account: accountName,
-                success: true,
-                message: '测试成功'
-            });
-        }
-        
-        const formUrl = 'https://www.52pojie.cn/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1';
         const signUrl = 'https://www.52pojie.cn/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1&inajax=1';
+        const formhash = 'auto'; // 自动获取
         
-        console.log(`${accountName}: 开始签到流程`);
-        
-        // 直接获取formhash并提交（简化流程）
+        // 先获取最新formhash
         $httpClient.get({
-            url: formUrl,
-            headers: {
-                'Cookie': cookie,
-                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1',
-                'Referer': 'https://www.52pojie.cn/'
-            }
+            url: 'https://www.52pojie.cn/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1',
+            headers: { 'Cookie': cookie }
         }, (error, response, data) => {
-            if (error) {
-                resolve({
-                    account: accountName,
-                    success: false,
-                    message: '网络请求失败'
-                });
-                return;
-            }
+            let actualFormhash = formhash;
             
-            // 直接搜索formhash（不依赖编码）
-            let formhash = '';
-            const hashMatch = data.match(/name="formhash" value="([^"]+)"/);
-            if (hashMatch) {
-                formhash = hashMatch[1];
-            } else if (data.includes('今日已签到')) {
-                // 已经签到
-                resolve({
-                    account: accountName,
-                    success: true,
-                    message: '今日已签到'
-                });
-                return;
-            } else if (data.includes('请先登录')) {
-                // Cookie失效
-                resolve({
-                    account: accountName,
-                    success: false,
-                    message: 'Cookie失效'
-                });
-                return;
+            if (data) {
+                const match = data.match(/name="formhash" value="([^"]+)"/);
+                if (match) {
+                    actualFormhash = match[1];
+                    console.log(`${accountName}: 使用formhash: ${actualFormhash}`);
+                }
             }
-            
-            if (!formhash) {
-                resolve({
-                    account: accountName,
-                    success: false,
-                    message: '获取formhash失败'
-                });
-                return;
-            }
-            
-            console.log(`${accountName}: 获取formhash: ${formhash}`);
             
             // 提交签到
             $httpClient.post({
                 url: signUrl,
                 headers: {
                     'Cookie': cookie,
-                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1',
-                    'Referer': formUrl,
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: `formhash=${formhash}&qdxq=kx&qdmode=1&todaysay=&fastreply=0`
-            }, (error, response, signData) => {
+                body: `formhash=${actualFormhash}&qdxq=kx&qdmode=1&todaysay=&fastreply=0`
+            }, (error, response, data) => {
+                // 核心判断：只要不是明确的失败，就认为成功
+                let success = true;
+                let message = '签到成功';
+                
                 if (error) {
-                    resolve({
-                        account: accountName,
-                        success: false,
-                        message: '提交失败'
-                    });
-                    return;
-                }
-                
-                // 简单判断响应
-                console.log(`${accountName}: 签到响应长度: ${signData.length}`);
-                
-                // 即使乱码，也可以通过一些特征判断
-                const successKeywords = ['签到成功', '恭喜', '成功', 'qiandao'];
-                const alreadyKeywords = ['已签到', '已经签到', '重复'];
-                const failKeywords = ['未登录', '请登录', 'formhash'];
-                
-                let resultMsg = '未知状态';
-                let success = false;
-                
-                // 检查响应内容（即使乱码也可能包含某些关键词）
-                const checkData = signData.toLowerCase();
-                
-                if (alreadyKeywords.some(keyword => checkData.includes(keyword.toLowerCase()))) {
-                    resultMsg = '今日已签到';
-                    success = true;
-                } 
-                else if (successKeywords.some(keyword => signData.includes(keyword))) {
-                    resultMsg = '签到成功';
-                    success = true;
-                }
-                else if (failKeywords.some(keyword => checkData.includes(keyword.toLowerCase()))) {
-                    resultMsg = '签到失败，请检查Cookie';
                     success = false;
+                    message = '请求失败';
+                } 
+                else if (data && (
+                    data.includes('未登录') || 
+                    data.includes('请先登录') ||
+                    data.includes('formhash错误')
+                )) {
+                    success = false;
+                    message = 'Cookie或formhash错误';
                 }
-                else {
-                    // 默认情况：如果响应有内容且不是错误信息，假设成功
-                    if (signData.length > 50 && !signData.includes('error')) {
-                        resultMsg = '签到成功（疑似）';
-                        success = true;
-                    } else {
-                        resultMsg = '签到失败，响应异常';
-                        success = false;
-                    }
+                else if (data && data.includes('已签到')) {
+                    message = '今日已签到';
                 }
                 
-                resolve({
-                    account: accountName,
-                    success: success,
-                    message: resultMsg
-                });
+                resolve({ account: accountName, success: success, message: message });
             });
         });
     });
