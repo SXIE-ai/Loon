@@ -186,11 +186,10 @@ function flagEmoji(code) {
   return String.fromCodePoint(...c.split("").map((x) => 127397 + x.charCodeAt(0)));
 }
 
-// 各家 API 请求 - 使用中文语言参数
+// 各家 API 请求
 async function fetchIpapi(ip) {
   try {
-    // 添加语言参数 zh-CN 获取中文信息
-    const { data } = await httpGet(`https://api.ipapi.is/?q=${encodeURIComponent(ip)}&lang=zh-CN`);
+    const { data } = await httpGet(`https://api.ipapi.is/?q=${encodeURIComponent(ip)}`);
     return safeJsonParse(data);
   } catch (error) {
     return null;
@@ -382,18 +381,18 @@ function translateLocation(englishName) {
   if (ipapiData.status === "fulfilled" && ipapiData.value) {
     grades.push(gradeIpapi(ipapiData.value));
     
-    // 从 ipapi 获取位置信息并翻译为中文
+    // 从 ipapi 获取位置信息
     const ipapiJson = ipapiData.value;
     
-    // ASN 信息
+    // ASN 信息 - 保持英文显示
     const asnNumber = ipapiJson.asn?.asn ? `AS${ipapiJson.asn.asn}` : "";
     const asnOrg = ipapiJson.asn?.org || ipapiJson.asn?.name || "";
-    const asnText = asnNumber ? `${asnNumber} ${asnOrg}`.trim() : "未知";
+    const asnText = asnNumber ? `${asnNumber} ${asnOrg}`.trim() : "Unknown";
     
-    // 地理位置信息并翻译
+    // 地理位置信息翻译为中文
     const countryCode = ipapiJson.location?.country_code || "";
-    const countryEnglish = ipapiJson.location?.country || "未知";
-    const cityEnglish = ipapiJson.location?.city || "未知";
+    const countryEnglish = ipapiJson.location?.country || "Unknown";
+    const cityEnglish = ipapiJson.location?.city || "Unknown";
     
     const country = translateLocation(countryEnglish);
     const city = translateLocation(cityEnglish);
@@ -404,7 +403,7 @@ function translateLocation(englishName) {
   } else {
     grades.push({ sev: 2, text: "ipapi：服务不可用" });
     var locationInfo = { 
-      asnText: "未知", 
+      asnText: "Unknown", 
       flag: "", 
       country: "未知", 
       city: "未知", 
