@@ -186,10 +186,11 @@ function flagEmoji(code) {
   return String.fromCodePoint(...c.split("").map((x) => 127397 + x.charCodeAt(0)));
 }
 
-// 各家 API 请求
+// 各家 API 请求 - 使用中文语言参数
 async function fetchIpapi(ip) {
   try {
-    const { data } = await httpGet(`https://api.ipapi.is/?q=${encodeURIComponent(ip)}`);
+    // 添加语言参数 zh-CN 获取中文信息
+    const { data } = await httpGet(`https://api.ipapi.is/?q=${encodeURIComponent(ip)}&lang=zh-CN`);
     return safeJsonParse(data);
   } catch (error) {
     return null;
@@ -242,6 +243,96 @@ async function getCurrentIP() {
   return null;
 }
 
+// 翻译英文国家/城市名为中文的映射表
+const locationTranslations = {
+  // 常见国家
+  "United States": "美国",
+  "United Kingdom": "英国",
+  "Germany": "德国",
+  "France": "法国",
+  "Japan": "日本",
+  "South Korea": "韩国",
+  "Singapore": "新加坡",
+  "Hong Kong": "香港",
+  "Taiwan": "台湾",
+  "China": "中国",
+  "Canada": "加拿大",
+  "Australia": "澳大利亚",
+  "Russia": "俄罗斯",
+  "India": "印度",
+  "Brazil": "巴西",
+  "Netherlands": "荷兰",
+  "Switzerland": "瑞士",
+  "Sweden": "瑞典",
+  "Norway": "挪威",
+  "Finland": "芬兰",
+  "Denmark": "丹麦",
+  "Italy": "意大利",
+  "Spain": "西班牙",
+  "Portugal": "葡萄牙",
+  "Poland": "波兰",
+  "Czech Republic": "捷克",
+  "Austria": "奥地利",
+  "Belgium": "比利时",
+  "Ireland": "爱尔兰",
+  "New Zealand": "新西兰",
+  "Malaysia": "马来西亚",
+  "Thailand": "泰国",
+  "Vietnam": "越南",
+  "Philippines": "菲律宾",
+  "Indonesia": "印度尼西亚",
+  "Turkey": "土耳其",
+  "United Arab Emirates": "阿拉伯联合酋长国",
+  "Saudi Arabia": "沙特阿拉伯",
+  "Israel": "以色列",
+  "South Africa": "南非",
+  "Mexico": "墨西哥",
+  "Argentina": "阿根廷",
+  "Chile": "智利",
+  
+  // 常见城市
+  "Tokyo": "东京",
+  "Osaka": "大阪",
+  "Kyoto": "京都",
+  "Seoul": "首尔",
+  "Singapore": "新加坡",
+  "Hong Kong": "香港",
+  "Beijing": "北京",
+  "Shanghai": "上海",
+  "Guangzhou": "广州",
+  "Shenzhen": "深圳",
+  "Taipei": "台北",
+  "New York": "纽约",
+  "Los Angeles": "洛杉矶",
+  "San Francisco": "旧金山",
+  "Chicago": "芝加哥",
+  "London": "伦敦",
+  "Paris": "巴黎",
+  "Berlin": "柏林",
+  "Frankfurt": "法兰克福",
+  "Moscow": "莫斯科",
+  "Sydney": "悉尼",
+  "Melbourne": "墨尔本",
+  "Toronto": "多伦多",
+  "Vancouver": "温哥华"
+};
+
+// 翻译地理位置信息
+function translateLocation(englishName) {
+  if (!englishName) return "未知";
+  // 先尝试完全匹配
+  if (locationTranslations[englishName]) {
+    return locationTranslations[englishName];
+  }
+  // 尝试部分匹配（去除 ", " 后的部分）
+  const parts = englishName.split(", ");
+  if (parts.length > 0 && locationTranslations[parts[0]]) {
+    return locationTranslations[parts[0]];
+  }
+  // 如果无法翻译，返回原英文名
+  return englishName;
+}
+
 // ========== 主逻辑 ==========
 (async () => {
   let ip = await getCurrentIP();
@@ -291,12 +382,21 @@ async function getCurrentIP() {
   if (ipapiData.status === "fulfilled" && ipapiData.value) {
     grades.push(gradeIpapi(ipapiData.value));
     
-    // 从 ipapi 获取位置信息
+    // 从 ipapi 获取位置信息并翻译为中文
     const ipapiJson = ipapiData.value;
-    const asnText = ipapiJson.asn?.asn ? `AS${ipapiJson.asn.asn} ${ipapiJson.asn.org || ""}`.trim() : "未知";
+    
+    // ASN 信息
+    const asnNumber = ipapiJson.asn?.asn ? `AS${ipapiJson.asn.asn}` : "";
+    const asnOrg = ipapiJson.asn?.org || ipapiJson.asn?.name || "";
+    const asnText = asnNumber ? `${asnNumber} ${asnOrg}`.trim() : "未知";
+    
+    // 地理位置信息并翻译
     const countryCode = ipapiJson.location?.country_code || "";
-    const country = ipapiJson.location?.country || "未知";
-    const city = ipapiJson.location?.city || "未知";
+    const countryEnglish = ipapiJson.location?.country || "未知";
+    const cityEnglish = ipapiJson.location?.city || "未知";
+    
+    const country = translateLocation(countryEnglish);
+    const city = translateLocation(cityEnglish);
     const flag = flagEmoji(countryCode);
     const hostingLine = ipapiHostingText(ipapiJson);
     
