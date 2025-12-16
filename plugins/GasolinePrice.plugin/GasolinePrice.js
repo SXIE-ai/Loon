@@ -1,9 +1,10 @@
 // 汽油价格查询脚本 for Loon
-// 版本: 1.0.0
+// 版本: 1.0.1
 // 作者: SXIE-ai
+// 默认地区: 湖南
 
 const defaultConfig = {
-    location: '湖南',
+    location: '湖南',  // 修改为湖南
     type: '92',
     isShowAll: true
 };
@@ -43,13 +44,18 @@ function getConfig() {
     return defaultConfig;
 }
 
-// 模拟油价数据（实际使用时替换为真实API）
+// 模拟油价数据 - 添加湖南数据
 async function fetchGasolinePrice(location, type) {
-    // 这里应该是真实的API调用，暂时用模拟数据
-    // 示例API: https://apis.tianapi.com/oilprice/index?key=你的API密钥&prov=省份
-    
     // 模拟数据
     const mockData = {
+        '湖南': {
+            '92': 7.95,
+            '95': 8.45,
+            '98': 9.45,
+            '0': 7.64,
+            'updateTime': '2024-12-16 08:00',
+            'province': '湖南省'
+        },
         '江苏': {
             '92': 7.98,
             '95': 8.49,
@@ -73,17 +79,54 @@ async function fetchGasolinePrice(location, type) {
             '0': 7.69,
             'updateTime': '2024-12-16 08:00',
             'province': '上海市'
+        },
+        '广东': {
+            '92': 8.07,
+            '95': 8.74,
+            '98': 9.74,
+            '0': 7.72,
+            'updateTime': '2024-12-16 08:00',
+            'province': '广东省'
+        },
+        '浙江': {
+            '92': 7.99,
+            '95': 8.50,
+            '98': 9.50,
+            '0': 7.68,
+            'updateTime': '2024-12-16 08:00',
+            'province': '浙江省'
         }
     };
+    
+    // 如果查询的地区不在数据中，使用湖南作为默认
+    const targetLocation = mockData[location] ? location : '湖南';
+    const data = mockData[targetLocation] || mockData['湖南'];
     
     // 模拟API延迟
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    const data = mockData[location] || mockData['江苏'];
     return {
         success: true,
-        data: data
+        data: data,
+        actualLocation: targetLocation
     };
+}
+
+// 获取油价图标函数
+function getPriceIcon(type) {
+    const icons = {
+        '92': '⛽',
+        '95': '🛢️',
+        '98': '🔥',
+        '0': '🚛'
+    };
+    return icons[type] || '⛽';
+}
+
+// 获取趋势图标（模拟）
+function getTrendIcon() {
+    const trends = ['↗️', '↘️', '➡️'];
+    return trends[Math.floor(Math.random() * trends.length)];
 }
 
 // 主函数
@@ -103,20 +146,29 @@ async function main() {
         }
         
         const priceData = result.data;
+        const actualLocation = result.actualLocation;
         
         // 3. 格式化显示内容
         let content = '';
+        const trendIcon = getTrendIcon();
+        
         if (isShowAll) {
-            content += `⛽ 92号汽油: ¥${priceData['92']}\n`;
-            content += `⛽ 95号汽油: ¥${priceData['95']}\n`;
-            content += `⛽ 98号汽油: ¥${priceData['98']}\n`;
-            content += `⛽ 0号柴油: ¥${priceData['0']}\n`;
+            content += `${getPriceIcon('92')} 92号汽油: ¥${priceData['92']} ${trendIcon}\n`;
+            content += `${getPriceIcon('95')} 95号汽油: ¥${priceData['95']} ${trendIcon}\n`;
+            content += `${getPriceIcon('98')} 98号汽油: ¥${priceData['98']} ${trendIcon}\n`;
+            content += `${getPriceIcon('0')} 0号柴油: ¥${priceData['0']} ${trendIcon}\n`;
         } else {
-            content += `⛽ ${type}号: ¥${priceData[type]}\n`;
+            content += `${getPriceIcon(type)} ${type}号: ¥${priceData[type]} ${trendIcon}\n`;
         }
         
-        content += `📍 ${priceData.province}\n`;
-        content += `🕒 ${priceData.updateTime}`;
+        content += `\n📍 ${priceData.province}`;
+        
+        // 如果查询的地区不在数据中，显示提示
+        if (actualLocation !== location) {
+            content += `\n⚠️ 未找到"${location}"数据，显示${priceData.province}数据`;
+        }
+        
+        content += `\n🕒 ${priceData.updateTime}`;
         
         // 4. 输出到Loon面板
         const notification = {
@@ -126,7 +178,7 @@ async function main() {
         
         // 判断执行环境
         if (typeof $notification !== 'undefined') {
-            // Loon环境
+            // Loon环境 - 发送通知
             $notification.post(notification.title, '', notification.content);
         }
         
@@ -135,7 +187,8 @@ async function main() {
             $done({
                 title: notification.title,
                 content: notification.content,
-                icon: 'fuelpump.fill'
+                icon: 'fuelpump.fill',
+                'icon-color': '#FF6B00'
             });
         } else {
             // 纯脚本执行
@@ -147,7 +200,7 @@ async function main() {
         
         const errorMsg = {
             title: '油价查询失败',
-            content: `错误: ${error.message}\n请检查网络连接`
+            content: `错误: ${error.message}\n请检查网络连接\n默认显示湖南油价`
         };
         
         if (typeof $notification !== 'undefined') {
