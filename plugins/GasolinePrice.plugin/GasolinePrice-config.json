@@ -1,0 +1,32 @@
+{
+    "name": "汽油价格设置",
+    "description": "设置查询地区和油号",
+    "icon": "oilcan.fill",
+    "panels": [
+        {
+            "type": "input",
+            "title": "地区",
+            "key": "location",
+            "placeholder": "如：江苏、北京、上海",
+            "default": "江苏"
+        },
+        {
+            "type": "select",
+            "title": "油号",
+            "key": "type",
+            "options": [
+                {"label": "92号汽油", "value": "92"},
+                {"label": "95号汽油", "value": "95"},
+                {"label": "98号汽油", "value": "98"},
+                {"label": "0号柴油", "value": "0"}
+            ],
+            "default": "92"
+        },
+        {
+            "type": "switch",
+            "title": "显示所有油号",
+            "key": "isShowAll",
+            "default": true
+        }
+    ]
+}
