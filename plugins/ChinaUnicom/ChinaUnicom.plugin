@@ -2,7 +2,6 @@
 #!desc=自动完成中国联通每日签到和抽奖\n需要先抓包获取Cookie配置
 #!author=SXIE-ai
 #!homepage=https://github.com/SXIE-ai/Loon
-#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/ChinaUnicom.plugin/unicom.png
 #!openUrl=https://github.com/SXIE-ai/Loon/tree/main/plugins/ChinaUnicom.plugin
 #!tag=工具,签到,联通
 #!system=iOS, iPadOS, macOS
