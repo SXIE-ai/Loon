@@ -3,7 +3,7 @@
 // 作者: SXIE-ai
 
 const defaultConfig = {
-    location: '江苏',
+    location: '湖南',
     type: '92',
     isShowAll: true
 };
