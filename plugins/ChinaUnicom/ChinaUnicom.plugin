@@ -17,3 +17,7 @@ china-unicom = type=generic, script-path=https://raw.githubusercontent.com/SXIE-
 
 # 每日上午9点自动执行
 cron "0 9 * * *" script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/ChinaUnicom/ChinaUnicom.js, tag=联通每日签到, argument=enableSign=true&enableLottery=true&enableNotification=true
+
+# 配置面板
+[Scripting]
+ChinaUnicom-config = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/ChinaUnicom/ChinaUnicom-config.json
