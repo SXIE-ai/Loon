@@ -1,0 +1,68 @@
+{
+    "name": "中国联通签到设置",
+    "description": "设置中国联通签到参数\n需要先抓包获取Cookie",
+    "icon": "antenna.radiowaves.left.and.right",
+    "panels": [
+        {
+            "type": "input",
+            "title": "登录URL",
+            "key": "loginUrl",
+            "placeholder": "抓包获取的登录URL",
+            "default": ""
+        },
+        {
+            "type": "input",
+            "title": "登录Headers",
+            "key": "loginHeaders",
+            "placeholder": "抓包获取的登录Headers(JSON)",
+            "default": "{}"
+        },
+        {
+            "type": "input",
+            "title": "签到URL",
+            "key": "signUrl",
+            "placeholder": "抓包获取的签到URL",
+            "default": ""
+        },
+        {
+            "type": "input",
+            "title": "签到Headers",
+            "key": "signHeaders",
+            "placeholder": "抓包获取的签到Headers(JSON)",
+            "default": "{}"
+        },
+        {
+            "type": "switch",
+            "title": "启用每日签到",
+            "key": "enableSign",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "title": "启用每日抽奖",
+            "key": "enableLottery",
+            "default": true,
+            "description": "需要配置抽奖URL"
+        },
+        {
+            "type": "input",
+            "title": "抽奖登录URL",
+            "key": "lotteryLoginUrl",
+            "placeholder": "抽奖页面登录URL(可选)",
+            "default": ""
+        },
+        {
+            "type": "input",
+            "title": "抽奖登录Headers",
+            "key": "lotteryLoginHeaders",
+            "placeholder": "抽奖登录Headers(JSON)",
+            "default": "{}"
+        },
+        {
+            "type": "switch",
+            "title": "发送通知",
+            "key": "enableNotification",
+            "default": true
+        }
+    ]
+}
