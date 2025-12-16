@@ -27,4 +27,4 @@ hostname = *.10010.com, act.10010.com, m.client.10010.com
 # 配置引用
 [Scripting]
 # 引用配置文件
-ChinaUnicom-config = https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/ChinaUnicom.plugin/ChinaUnicom-config.json
+ChinaUnicom-config = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/ChinaUnicom/ChinaUnicom-config.json
