@@ -1,7 +1,7 @@
 /*
 AppRaven Premium Unlock
 Unlock Premium, InAppPurchases, Ownership, Arcade, Preorder features
-Quantumult X / Loon / Surge compatible
+compatible
 */
 
 let body = $response.body;
