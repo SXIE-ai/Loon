@@ -6,7 +6,7 @@ AppRaven
 [rewrite_local]
 
 
-https://appraven.net/appraven/graphql url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/AppRaven.js
+https://appraven.net/appraven/graphql url script-response-body https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/AppRaven/AppRaven.js
 [mitm] 
 
 hostname = appraven.net
