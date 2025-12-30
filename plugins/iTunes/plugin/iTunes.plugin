@@ -1,0 +1,27 @@
+#!name=iTunes
+#!desc=iTunes 解锁
+#!author=@SXIE-ai
+#!homepage=https://github.com/SXIE-ai/Loon/tree/main
+#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png
+#!tag=iTunes 解锁
+#!loon_version=3.2.1(372)
+#!date=2025-12-31
+
+
+
+# iTunes系列解锁合集
+icon = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png
+
+[Panel]
+iTunes设置 = title=iTunes解锁设置, style=info, icon=sf.gear
+脚本选择 = label=请选择解锁脚本, select=chxm1023|ddgksf2013|Guding88, style=select, default=chxm1023, icon=sf.list.bullet
+
+[Script]
+iTunes-chxm1023 = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=persistent://iTunes.plugin#脚本选择==chxm1023
+
+iTunes-ddgksf2013 = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=persistent://iTunes.plugin#脚本选择==ddgksf2013
+
+iTunes-Guding88 = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=persistent://iTunes.plugin#脚本选择==Guding88
+
+[Mitm]
+hostname = buy.itunes.apple.com
