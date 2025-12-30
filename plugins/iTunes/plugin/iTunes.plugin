@@ -1,5 +1,28 @@
-#!name=Test Panel
-#!desc=Panel Test
+#!name=iTunes 解锁合集
+#!desc=iTunes 系列解锁脚本
+#!author=@SXIE-ai
+#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png
 
+# 先检查 Loon 版本
 [Panel]
-my_setting = switch=true, title=My Setting, default=true
+# 如果 Loon >= 3.3.0，显示设置面板
+script_select = select=chxm1023|ddgksf2013|Guding88, title=选择脚本, default=chxm1023, enable=loon_version>=3.3.0
+
+# 脚本配置 - 根据版本使用不同的启用条件
+[Script]
+# 新版本：使用 Panel 控制
+script1_new = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=loon_version>=3.3.0&persistent://iTunes.plugin#script_select==chxm1023
+
+script2_new = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=loon_version>=3.3.0&persistent://iTunes.plugin#script_select==ddgksf2013
+
+script3_new = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=loon_version>=3.3.0&persistent://iTunes.plugin#script_select==Guding88
+
+# 旧版本：默认启用第一个，用户手动切换
+script1_old = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=loon_version<3.3.0
+
+script2_old = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=loon_version<3.3.0&false
+
+script3_old = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=loon_version<3.3.0&false
+
+[Mitm]
+hostname = buy.itunes.apple.com
