@@ -1,27 +1,34 @@
-#!name=iTunes
-#!desc=iTunes 解锁
-#!author=@SXIE-ai
-#!homepage=https://github.com/SXIE-ai/Loon/tree/main
-#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png
-#!tag=iTunes 解锁
-#!loon_version=3.2.1(372)
-#!date=2025-12-31
-
-
-
-[Plugin]
-# iTunes系列解锁合集
+# ========== 插件基本信息 ==========
+name = iTunes 解锁合集
+desc = 解锁 iTunes 购买功能，三个脚本选其一
+author = @SXIE-ai
+homepage = https://github.com/SXIE-ai/Loon/tree/main/plugins/iTunes
 icon = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png
+tag = iTunes,解锁,音乐
+version = 1.0.0
+date = 2025-12-31
+loon-version = 3.2.1(372)
+enabled = false
 
+# ========== 设置面板 ==========
 [Panel]
-选择脚本 = select=chxm1023|ddgksf2013|Guding88, title=选择解锁脚本, default=chxm1023
+设置说明 = title=iTunes解锁设置, style=info, content=请选择一个脚本版本后保存生效
 
+脚本选择 = select=chxm1023|ddgksf2013|Guding88, title=选择脚本版本, desc=chxm1023:基础解锁 | ddgksf2013:增强解锁 | Guding88:完整解锁, default=chxm1023
+
+启用开关 = switch=true, title=启用插件, desc=开启后生效, default=true
+
+# ========== 脚本配置 ==========
 [Script]
-iTunes-chxm1023 = type=http-response,pattern=^https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=persistent://iTunes.plugin#选择脚本==chxm1023
+# chxm1023 版本
+iTunes-chxm1023 = type=http-response,pattern=^https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=persistent://iTunes.plugin#启用开关==true&脚本选择==chxm1023
 
-iTunes-ddgksf2013 = type=http-response,pattern=^https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=persistent://iTunes.plugin#选择脚本==ddgksf2013
+# ddgksf2013 版本
+iTunes-ddgksf2013 = type=http-response,pattern=^https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=persistent://iTunes.plugin#启用开关==true&脚本选择==ddgksf2013
 
-iTunes-Guding88 = type=http-response,pattern=^https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=persistent://iTunes.plugin#选择脚本==Guding88
+# Guding88 版本
+iTunes-Guding88 = type=http-response,pattern=^https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=persistent://iTunes.plugin#启用开关==true&脚本选择==Guding88
 
+# ========== MITM 配置 ==========
 [Mitm]
 hostname = buy.itunes.apple.com
