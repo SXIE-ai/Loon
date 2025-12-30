@@ -1,9 +1,6 @@
-#!name=测试插件
-#!desc=测试设置面板
+#!name=简单测试
+#!desc=测试Panel功能
 #!author=Test
 
 [Panel]
-测试开关 = switch=true, title=测试开关, default=true
-
-[Script]
-test_script = type=http-request,pattern=example.com,script=console.log("test"),enable=persistent://Test.plugin#测试开关==true
+test_switch = switch=true, title=测试开关, default=true
