@@ -15,6 +15,14 @@ DOMAIN,imgcache.qq.com,REJECT
 DOMAIN,wnsmusic.qq.com,REJECT
 # QQ音乐数据采集服务
 DOMAIN,gatherer.m.qq.com,REJECT
+# QQ音乐精准通广告
+URL-REGEX,^https?://y\.qq\.com/jzt/.*,REJECT
+# QQ音乐静态消息
+URL-REGEX,^https?://y\.qq\.com/v3/static/.*,REJECT
+# QQ音乐JSON配置
+URL-REGEX,^https?://y\.qq\.com/.*\.json\?.*,REJECT
+
+
 # 建设银行绕过vpn
 DOMAIN,yunbusiness.ccb.com,REJECT
 # 盯盯拍
