@@ -11,3 +11,6 @@
 DOMAIN,music.y.qq.com,REJECT
 # 建设银行vpn
 DOMAIN,yunbusiness.ccb.com,REJECT
+# 动卡空间直连
+DOMAIN,creditcard.ecitic.com,DIRECT
+DOMAIN,citicbank.com,DIRECT
