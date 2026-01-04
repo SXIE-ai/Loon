@@ -13,6 +13,8 @@ DOMAIN,music.y.qq.com,REJECT
 DOMAIN,imgcache.qq.com,REJECT
 # QQ音乐微消息上报
 DOMAIN,wnsmusic.qq.com,REJECT
+# QQ音乐数据采集服务
+DOMAIN,gatherer.m.qq.com,REJECT
 # 建设银行绕过vpn
 DOMAIN,yunbusiness.ccb.com,REJECT
 # 盯盯拍
