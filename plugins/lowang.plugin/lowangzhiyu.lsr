@@ -9,5 +9,5 @@
 [Rule]
 # QQ音乐开屏
 DOMAIN,music.y.qq.com,REJECT
-# 建设银行
+# 建设银行vpn
 DOMAIN,yunbusiness.ccb.com,REJECT
