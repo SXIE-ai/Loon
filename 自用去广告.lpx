@@ -10,6 +10,7 @@
 [Rule]
 # QQ音乐开屏
 DOMAIN,music.y.qq.com,REJECT
+DOMAIN,imgcache.qq.com,REJECT
 # 建设银行绕过vpn
 DOMAIN,yunbusiness.ccb.com,REJECT
 # 盯盯拍
