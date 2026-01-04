@@ -18,3 +18,4 @@ DOMAIN,citicbank.com,DIRECT
 DOMAIN,app.ddpai.com,DIRECT
 DOMAIN,appgw.ddpai.com,DIRECT
 DOMAIN,img3.ddpai.com,DIRECT
+DOMAIN-SUFFIX,ddpai.com,DIRECT
