@@ -23,12 +23,16 @@ URL-REGEX,^https?://y\.qq\.com/jzt/.*,REJECT
 URL-REGEX,^https?://y\.qq\.com/v3/static/.*,REJECT
 # QQ音乐JSON配置
 URL-REGEX,^https?://y\.qq\.com/.*\.json\?.*,REJECT
+# 银行
 # 中信银联数据分析上报
 DOMAIN,analytics.95516.com,REJECT
 # 银联废弃的设备接口
 DOMAIN,device.cup.com.cn,REJECT
 # 银联反欺诈风控数据上报
 DOMAIN,antifraud.cup.com.cn,REJECT
+# 中信银行财富广场广告
+DOMAIN-SUFFIX,cfhc.citic,REJECT
+URL-REGEX,^https?://.*wealthplaza.*\.cfhc\.citic/.*,REJECT
 
 # 建设银行绕过vpn
 DOMAIN,yunbusiness.ccb.com,REJECT
