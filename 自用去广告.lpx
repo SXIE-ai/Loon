@@ -8,21 +8,52 @@
 #!date=2024-12-20 12:00:00
 
 [Rule]
-# QQ音乐开屏
+# QQ 音乐开屏 / 资源
 DOMAIN,music.y.qq.com,REJECT
 DOMAIN,imgcache.qq.com,REJECT
-# QQ音乐微消息上报
+# QQ 音乐上报 / 统计
 DOMAIN,wnsmusic.qq.com,REJECT
-# QQ音乐数据采集服务
+DOMAIN,monitor.music.qq.com,REJECT
+DOMAIN,stat.y.qq.com,REJECT
+DOMAIN,otheve.beacon.qq.com,REJECT
+DOMAIN,oth.str.mdt.qq.com,REJECT
+DOMAIN,h.trace.qq.com,REJECT
 DOMAIN,gatherer.m.qq.com,REJECT
-# QQ音乐WNS上报服务
 DOMAIN-SUFFIX,twns.qq.com,REJECT
-# QQ音乐精准通广告
+# QQ 音乐广告接口
 URL-REGEX,^https?://y\.qq\.com/jzt/.*,REJECT
-# QQ音乐静态消息
 URL-REGEX,^https?://y\.qq\.com/v3/static/.*,REJECT
-# QQ音乐JSON配置
 URL-REGEX,^https?://y\.qq\.com/.*\.json\?.*,REJECT
+# 腾讯音乐广告域
+DOMAIN,ad.tencentmusic.com,REJECT
+DOMAIN,adstats.tencentmusic.com,REJECT
+DOMAIN,adcdn.tencentmusic.com,REJECT
+DOMAIN,adcdn6.tencentmusic.com,REJECT
+DOMAIN,adexpo.tencentmusic.com,REJECT
+DOMAIN,adclick.tencentmusic.com,REJECT
+# TME 广告（避免功能异常）
+DOMAIN,tmead.y.qq.com-NO-DROP
+DOMAIN,tmeadbak.y.qq.com-NO-DROP
+DOMAIN,tmeadcomm.y.qq.com,REJECT
+# 广告 / 追踪 SDK
+DOMAIN,sdk.e.qq.com,REJECT
+DOMAIN,p.l.qq.com,REJECT
+DOMAIN,us.l.qq.com,REJECT
+DOMAIN,tangram.e.qq.com,REJECT
+DOMAIN,xs.gdt.qq.com,REJECT
+# 广告平台后缀
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN-SUFFIX,v.gdt.qq.com,REJECT
+DOMAIN-SUFFIX,e.qq.com,REJECT
+DOMAIN-SUFFIX,rqd.qq.com,REJECT
+DOMAIN-SUFFIX,android.rqd.qq.com,REJECT
+DOMAIN-SUFFIX,imtmp.net,REJECT
+DOMAIN-SUFFIX,wup.imtt.qq.com,REJECT
+# 腾讯云资源
+DOMAIN,amsweb-cdn-gz-1258344696.file.myqcloud.com,REJECT
+DOMAIN,wallpaper-1258344696.file.myqcloud.com,REJECT
+# IP
+IP-CIDR,120.222.240.171/32,no-resolve
 # 银行
 # 中信银联数据分析上报
 DOMAIN,analytics.95516.com,REJECT
