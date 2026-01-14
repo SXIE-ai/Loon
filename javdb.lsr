@@ -11,7 +11,7 @@ DOMAIN-SUFFIX,javdb.org
 DOMAIN-SUFFIX,jav.app
 
 # --- 数字镜像（如 javdb564.com）---
-DOMAIN-REGEX,javdb\d+\.com$
+DOMAIN-REGEX,javdb\d+\.com
 
 # --- API / 防护 ---
 DOMAIN-SUFFIX,api.btyjscl.com
