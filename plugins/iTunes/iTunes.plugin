@@ -6,14 +6,6 @@
 #!loon_version=3.3.7
 #!date=2025-01-15
 
-[General]
-plugin-name = iTunes 解锁会员
-plugin-author = 三合一版
-plugin-version = 1.0.0
-plugin-desc = 三合一iTunes 解锁会员，可切换不同作者脚本
-plugin-home = https://github.com/
-plugin-min-loon-version = 3.2.1
-
 [Argument]
 # 选择使用哪个脚本
 script-select = select,"chxm1023","ddgksf2013","Guding88",tag=选择脚本源,desc=选择要使用的iTunes解锁脚本
