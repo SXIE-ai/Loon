@@ -5,7 +5,7 @@
 #!homepage=https://github.com/sooyaaabo/Egern
 #!date=2025-12-29 16:30
 [Argument]
-iTunes-chxm1023:false,iTunes-ddgksf2013:false,iTunes-Guding88:false
+itunes_author=select, chxm1023, ddgksf2013, Guding88, tag=脚本作者, desc=选择当前生效的 iTunes 解锁脚本作者
 
 [Script]
 # chxm1023
