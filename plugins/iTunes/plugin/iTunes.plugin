@@ -1,28 +1,17 @@
-#!name=iTunes 解锁合集
-#!desc=iTunes 系列解锁脚本
-#!author=@SXIE-ai
-#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/IMG_3602.png
+#!name=iTunes
+#!desc=iTunes 会员解锁（Loon 原生多作者切换版）
+#!author=chxm1023 / ddgksf2013 / Guding88
+#!icon=https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/iTunes.png
+#!homepage=https://github.com/sooyaaabo/Egern
+#!loon_version=3.3.7
+#!date=2025-01-15
 
-# 先检查 Loon 版本
-[Panel]
-# 如果 Loon >= 3.3.0，显示设置面板
-script_select = select=chxm1023|ddgksf2013|Guding88, title=选择脚本, default=chxm1023, enable=loon_version>=3.3.0
+[Argument]
+itunes_author = select, chxm1023, ddgksf2013, Guding88, tag=脚本作者, desc=选择当前生效的 iTunes 解锁脚本作者
 
-# 脚本配置 - 根据版本使用不同的启用条件
 [Script]
-# 新版本：使用 Panel 控制
-script1_new = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=loon_version>=3.3.0&persistent://iTunes.plugin#script_select==chxm1023
-
-script2_new = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=loon_version>=3.3.0&persistent://iTunes.plugin#script_select==ddgksf2013
-
-script3_new = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=loon_version>=3.3.0&persistent://iTunes.plugin#script_select==Guding88
-
-# 旧版本：默认启用第一个，用户手动切换
-script1_old = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes1.js,timeout=10,enable=loon_version<3.3.0
-
-script2_old = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,timeout=10,enable=loon_version<3.3.0&false
-
-script3_old = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/,requires-body=true,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes3.js,timeout=10,enable=loon_version<3.3.0&false
-
-[Mitm]
+type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js,requires-body=true,timeout=30,tag=chxm1023
+type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/iTunes/iTunes2.js,requires-body=true,timeout=30,tag=ddgksf2013
+type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/Guding88/Script/main/APPheji_iTunes.js,requires-body=true,timeout=30,tag=Guding88
+[MitM]
 hostname = buy.itunes.apple.com
