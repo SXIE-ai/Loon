@@ -2,6 +2,18 @@
 #!desc=应用的相关学习探索
 #!author=联合国儿童基金会
 #!homepage=https://github.com/SXIE-ai/Loon/tree/main
-#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/AppRaven/IMG_3600.png
+#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/United%20Nations%20Children's%20Fund/lianheguoertojijinhui.PNG
 #!loon_version=3.2.1(372)
 #!date=2026-1-18
+
+
+[Argument]
+enable = switch,true,tag=无夜视频,desc=主功能开关
+
+player = switch,false,tag=播放器,desc=使用 Lenna 播放器
+
+one = switch,false,tag=ONE.一个
+ym = switch,false,tag=淫荡猫系列
+hj = switch,false,tag=海角社区
+mask = switch,false,tag=面具公社
+md = switch,false,tag=麻豆社区
