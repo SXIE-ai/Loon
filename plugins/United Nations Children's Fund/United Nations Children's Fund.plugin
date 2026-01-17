@@ -10,7 +10,7 @@
 [Argument]
 enable = switch,true,tag=无夜视频,desc=主功能开关
 
-player = switch,false,tag=播放器,desc=使用 Lenna 播放器
+script-select = select,"Lenna","iPlayer",tag=播放器,desc=选择要使用的播放器
 
 one = switch,false,tag=ONE.一个
 ym = switch,false,tag=淫荡猫系列
