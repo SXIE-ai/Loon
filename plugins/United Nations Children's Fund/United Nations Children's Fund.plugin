@@ -8,21 +8,21 @@
 
 
 [Argument]
-switch,true,tag=无夜视频,desc=主功能开关
+enable = switch,true,tag=无夜视频,desc=主功能开关
 
 script-select = select,"Lenna","iPlayer",tag=播放器,desc=选择要使用的播放器
 
-switch,fal…se,tag=小狐狸
+xhl = switch,fal…se,tag=小狐狸
 
-switch,false,tag=JVID
+jvid = switch,false,tag=JVID
 
-switch,false,tag=足控社
+zks = switch,false,tag=足控社
 
 [Rule]
 # 小狐狸
 ^https?:\/\/xhlld.*\.shop\/view\/(adList|getVideoInfoAdList) reject
 
-[Rewrite]
+[Script]
 # 小狐狸
 ^https?:\/\/xhlld.*\.shop\/view\/getVideoInfo\/\d+ script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xiaohuli.js
 
