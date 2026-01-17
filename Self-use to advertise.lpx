@@ -54,6 +54,8 @@ DOMAIN,amsweb-cdn-gz-1258344696.file.myqcloud.com,REJECT
 DOMAIN,wallpaper-1258344696.file.myqcloud.com,REJECT
 # IP
 IP-CIDR,120.222.240.171/32,REJECT,no-resolve
+# 腾讯视频广告子域名
+DOMAIN-SUFFIX,ads.qq.com,REJECT
 # 银行
 # 中信银联数据分析上报
 DOMAIN,analytics.95516.com,REJECT
