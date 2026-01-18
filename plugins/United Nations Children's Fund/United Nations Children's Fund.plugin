@@ -19,6 +19,7 @@ jvid = switch,false,tag=JVID
 
 zks = switch,false,tag=足控社
 
+pear = switch,false,tag=pear
 
 [Rewrite]
 # 小狐狸
@@ -30,7 +31,7 @@ zks = switch,false,tag=足控社
 
 [Script]
 # 互斥开关
-http-response ^https?:\/\/[^\/]+\/(front\/|.*xhl.*\.shop\/|.*504.*\.xyz\/)\/.* script-path = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/United%20Nations%20Children's%20Fund/huchikaiguan.js, requires-body = false, timeout = 3,tag=互斥开关
+# http-response ^https?:\/\/[^\/]+\/(front\/|.*xhl.*\.shop\/|.*504.*\.xyz\/)\/.* script-path = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/United%20Nations%20Children's%20Fund/huchikaiguan.js, requires-body = false, timeout = 3,tag=互斥开关
 # 小狐狸
 http-response ^https?:\/\/xhlld.*\.shop\/view\/getVideoInfo\/\d+ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xiaohuli.js, requires-body=true, tag=小狐狸视频处理
 # JVID
