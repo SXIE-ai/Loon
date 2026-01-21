@@ -252,6 +252,17 @@ DOMAIN,appgw.ddpai.com,REJECT
 # 中通快递 页面跳转广告
 ^https?:\/\/hdgateway\.zto\.com\/listJumperShow reject-dict
 
+
+
+[Script]
+# 腾讯视频移除广告
+http-request ^https?:\/\/vv\.video\.qq\.com\/getvinfo script-path=https://kelee.one/Resource/JavaScript/CommonScript/replace-body.js, requires-body=true, timeout=20, tag=腾讯视频移除广告, argument="&sppreviewtype=\d(.*)&spsrt=\d->&sppreviewtype=0$1&spsrt=0"
+
+
+
+
+
+
 [MitM]
 
 hostname = wap.bank.ecitic.com,imcs.citicbank.com,mbasecc.bas.cmbchina.com,intellicc.bcs.cmbchina.com,btrace.qq.com,api2.helper.qq.com,*.beacon.qq.com,mi.gdt.qq.com,lives.l.qq.com,imgcache.qq.com,mtteve.beacon.qq.com,vv.video.qq.com,qt.qq.com,3gimg.qq.com,y.gtimg.cn,splashqqlive.gtimg.com,qzonestyle.gtimg.cn,discuz.gtimg.cn,bla.gtimg.com,mmgr.gtimg.com,bk.bingo.qq.com
