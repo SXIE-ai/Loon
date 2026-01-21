@@ -2,8 +2,8 @@
 {"name": "自用图标库",
  "description": "收集互联网公开图标文件，版权属于原作者和商标持有人。", 
  "icons": [
- {"name": "哆啦A梦",
-  "url": "https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/dlam.png"},
+ {"name": "loon1",
+  "url": "https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/icon/icons/loon1.PNG"},
 
  {"name": "Quantumult_X",
   "url": "https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/QX/Quantumult_X.png"},
