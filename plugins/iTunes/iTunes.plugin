@@ -7,8 +7,9 @@
 #!date=2025-01-15
 
 [Argument]
-# 选择使用哪个脚本
-script-select = select,"chxm1023","ddgksf2013","Guding88",tag=选择脚本源,desc=选择要使用的iTunes解锁脚本
+chxm1023_enable = switch,true,false,tag=chxm1023
+ddgksf2013_enable = switch,true,false,tag= ddgksf2013
+Guding88_enable = switch,true,false,tag= Guding88
 
 # 启用开关
 enable-switch = switch,true,tag=启用解锁,desc=是否启用iTunes验证解锁
@@ -16,11 +17,11 @@ enable-switch = switch,true,tag=启用解锁,desc=是否启用iTunes验证解锁
 
 [Script]
 # chxm1023
-http-response pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js, requires-body=true, tag=解锁会员@chxm1023, enabled=true
+http-response pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js, requires-body=true, tag=解锁会员@chxm1023, enabled=true,enable={chxm1023_enable}
 # ddgksf2013
-http-response pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/iTunes2.js, requires-body=true, tag=解锁会员@ddgksf2013, enabled=true
+http-response pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/iTunes/iTunes2.js, requires-body=true, tag=解锁会员@ddgksf2013, enabled=true,enable={ddgksf2013_enable}
 # Guding88
-http-response pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/Guding88/Script/main/APPheji_iTunes.js, requires-body=true, tag=解锁会员@Guding88, enabled=true
+http-response pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/Guding88/Script/main/APPheji_iTunes.js, requires-body=true, tag=解锁会员@Guding88, enabled=true,enable={Guding88_enable}
 
 [MITM]
 hostname = buy.itunes.apple.com
