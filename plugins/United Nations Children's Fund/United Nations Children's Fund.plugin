@@ -15,11 +15,11 @@ player = select, "lenna", "SenPlayer", "Infuse", "Fileball", "VidHub", "Alook", 
 scheme = input, "", tag=自定义Scheme, desc=选填 (例如 myplayer://play?url=), 优先级最高
 encode = select, "auto", "yes", "no", tag=URL编码, desc=是否对播放地址编码 (auto=根据播放器自动判断)
 
-xhl = switch,fal…se,tag=小狐狸
+xhl_enable = switch,true,false,tag=小狐狸
 
-jvid = switch,false,tag=JVID
+jvid_enable = switch,true,false,tag=JVID
 
-zks = switch,false,tag=足控社
+zks_enable = switch,true,false,tag=足控社
 
 pear_enable = switch,true,false,tag=pear
 
@@ -32,14 +32,12 @@ pear_enable = switch,true,false,tag=pear
 
 
 [Script]
-# 互斥开关
-# http-response ^https?:\/\/[^\/]+\/(front\/|.*xhl.*\.shop\/|.*504.*\.xyz\/)\/.* script-path = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/United%20Nations%20Children's%20Fund/huchikaiguan.js, requires-body = false, timeout = 3,tag=互斥开关
 # 小狐狸
-http-response ^https?:\/\/xhlld.*\.shop\/view\/getVideoInfo\/\d+ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xiaohuli.js, requires-body=true, tag=小狐狸视频处理
+http-response ^https?:\/\/xhlld.*\.shop\/view\/getVideoInfo\/\d+ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xiaohuli.js, requires-body=true, tag=小狐狸视频处理,enable={xhl_enable}
 # JVID
-http-response ^https?:\/\/[^\/]+\/front\/(system\/(banner\/bannerListByMAcct|bannersetting\/userGetBannerSet|datadictionary\/getDicByKeys)|cluser\/c\/user\/info\/get|media\/category\/listAllCategory)(\?.*)?$ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/jvid.js, requires-body=true, timeout=5, tag=JVID
+http-response ^https?:\/\/[^\/]+\/front\/(system\/(banner\/bannerListByMAcct|bannersetting\/userGetBannerSet|datadictionary\/getDicByKeys)|cluser\/c\/user\/info\/get|media\/category\/listAllCategory)(\?.*)?$ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/jvid.js, requires-body=true, timeout=5, tag=JVID,enable={jvid_enable}
 # 足控社
-http-response ^https?:\/\/.+\/appapi\/(detail|buyPicture|getUserInfo|goldBuyVideo)\/  script-path=https://raw.githubusercontent.com/chmg2025/script/refs/heads/main/zks.js, requires-body=true, timeout=60, tag=足控社
+http-response ^https?:\/\/.+\/appapi\/(detail|buyPicture|getUserInfo|goldBuyVideo)\/  script-path=https://raw.githubusercontent.com/chmg2025/script/refs/heads/main/zks.js, requires-body=true, timeout=60, tag=足控社,enable={zks_enable}
 
 # pear
 # 视频/动漫解析
