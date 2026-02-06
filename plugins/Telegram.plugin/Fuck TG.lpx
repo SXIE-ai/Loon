@@ -1,6 +1,7 @@
 #!name = Fuck Telegram bad IPs
 #!desc = 将 tg 的垃圾 IP 转移到好的 IP 上
 #!author = mieqq
+#!openUrl=https://apps.apple.com/app/id686449807
 #!system = iOS,iPadOS,tvOS,macOS
 #!system_version = 
 #!loon_version = 3.3.4(895)
