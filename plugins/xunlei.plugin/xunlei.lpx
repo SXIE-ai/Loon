@@ -1,0 +1,15 @@
+#!name=迅雷
+#!desc=迅雷超级会员
+#!author=SXIE-ai[https://github.com/SXIE-ai]
+#!homepage=https://github.com/SXIE-ai/loon/plugins
+#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/AppRaven/IMG_3600.png
+#!tag=迅雷解锁会员
+#!loon_version=3.2.1(372)
+#!date=2026-2-6
+
+[Script]
+http-response ^https?:\/\/xluser-ssl\.xunlei\.com\/xluser\.core\.login\/v3\/getuserinfo$ script-path=https://raw.githubusercontent.com/Marol62926/MarScrpt/main/xunlei.js, timeout=60, tag=迅雷
+
+[MITM]
+
+hostname= xluser-ssl.xunlei.com
