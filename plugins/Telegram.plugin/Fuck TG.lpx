@@ -5,6 +5,7 @@
 #!system_version = 
 #!loon_version = 3.3.4(895)
 #!icon = https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/Telegram.plugin/IMG_3638.png
+#!tag=功能增强
 
 [Host]
 # Fuck Telegram bad ips
