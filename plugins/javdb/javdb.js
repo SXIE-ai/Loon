@@ -1,8 +1,6 @@
-// 增加判断，防止手动运行时报错
-const reqUrl = (typeof $request !== "undefined") ? $request.url : null;
-
-if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
-  console.log("非目标视频请求或手动运行，脚本跳过");
+// 当前请求 URL
+const reqUrl = $request.url;
+if (!reqUrl) {
   $done({});
   return;
 }
