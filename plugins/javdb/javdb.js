@@ -1,42 +1,45 @@
-/*
-#!name = JavDB → SenPlayer 播放
-#!desc = 抓取 JavDB 播放页中真实视频流（m3u8/mp4），点击通知跳转 SenPlayer
-#!author = you
-*/
-
-const url = $request.url;
-if (!url) {
+// 当前请求 URL
+const reqUrl = $request.url;
+if (!reqUrl) {
   $done({});
   return;
 }
 
-// 只处理视频直链
-if (!/\.(m3u8|mp4|webm)(\?|$)/i.test(url)) {
+// 仅处理 JavDB 视频资源
+if (!/u1\.029xxj\.com/i.test(reqUrl)) {
   $done({});
   return;
 }
 
-// 去重
-const KEY = "JAVDB_LAST_VIDEO_URL";
-const last = $persistentStore.read(KEY);
-if (last === url) {
+// 只关心第一次有效播放资源
+if (!/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
   $done({});
   return;
 }
-$persistentStore.write(url, KEY);
 
-// SenPlayer scheme
-const senPlayerUrl =
-  "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(url);
+// 去重：只通知一次
+const cacheKey = "JAVDB_LAST_VIDEO";
+const last = $persistentStore.read(cacheKey);
+if (last) {
+  $done({});
+  return;
+}
+
+// 写入标记
+$persistentStore.write(reqUrl, cacheKey);
+
+// Scheme（SenPlayer / MKVPiP）
+const scheme = ($argument.sch || "").trim();
+const jumpUrl = scheme ? scheme + encodeURIComponent(reqUrl) : reqUrl;
 
 // 通知
 $notification.post(
-  "🎬 JavDB 捕获到视频流",
-  "点击使用 SenPlayer 播放",
-  url.split("?")[0],
+  "🎬 JavDB 捕获到视频",
+  "点击跳转播放器",
+  reqUrl,
   {
-    openUrl: senPlayerUrl,
-    clipboard: url
+    openUrl: jumpUrl,
+    clipboard: reqUrl
   }
 );
 
