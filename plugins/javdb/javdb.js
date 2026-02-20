@@ -1,28 +1,39 @@
-// 1. 安全获取变量，防止变量不存在导致脚本崩溃
+// 1. 安全获取变量
 const reqUrl = (typeof $request !== "undefined") ? $request.url : null;
-// 增加对 $argument 的存在性检查
-const arg = (typeof $argument !== "undefined") ? $argument : null;
+// 2. 这里的兼容性修改确保能读到你插件页设置的 SenPlayer
+const arg = (typeof $argument !== "undefined") ? $argument : "";
 
-// 2. 基础过滤：手动运行或非目标请求直接跳过
+// 基础过滤
 if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
   $done({});
   return;
 }
 
-// 3. 解析播放器 Scheme 参数
+// 3. 【解决通知多】：提取视频 ID 进行去重
+// 只要路径中的视频哈希值没变，就不再重复弹窗
+const videoIdMatch = reqUrl.match(/\/videos\/([^\/]+\/[^\/]+)/i);
+const videoId = videoIdMatch ? videoIdMatch[1] : reqUrl.split('?')[0].replace(/seg-\d+/i, "");
+
+const cacheKey = "JAVDB_ACTIVE_ID";
+const lastVideoId = $persistentStore.read(cacheKey);
+
+if (lastVideoId === videoId) {
+  $done({});
+  return;
+}
+$persistentStore.write(videoId, cacheKey);
+
+// 4. 【解决跳转问题】：手动匹配播放器 Scheme
 let jumpUrl = reqUrl;
-if (arg && typeof arg === "string") {
-  // 提取 sch= 后面的内容
-  const match = arg.match(/sch=([^&]+)/);
-  if (match && match[1]) {
-    jumpUrl = match[1] + encodeURIComponent(reqUrl);
-  }
+// 如果你在插件页选了 SenPlayer，Loon 会传入包含 SenPlayer 字样的参数
+if (arg.indexOf("SenPlayer") !== -1 || arg.indexOf("senplayer://") !== -1) {
+    jumpUrl = "senplayer://" + encodeURIComponent(reqUrl);
 }
 
-// 4. 强制发送通知（这一版没有去重，百分百弹窗）
+// 5. 发送通知
 $notification.post(
-  "🎬 JavDB 视频捕获",
-  "已成功提取链接，点击跳转",
+  "🎬 JavDB 捕获成功",
+  "已识别新视频，点击跳转播放器",
   reqUrl,
   {
     "openUrl": jumpUrl,
