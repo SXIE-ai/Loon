@@ -1,28 +1,16 @@
 const reqUrl = (typeof $request !== "undefined") ? $request.url : null;
-
-// 只要是这个刷屏域名的请求都拦截看一眼
-if (!reqUrl || !/liquidlink\.cn/i.test(reqUrl)) {
-    $done({});
-    return;
+if (!reqUrl || !/029xxj\.com/i.test(reqUrl)) {
+    $done({}); return;
 }
 
-// 提取核心参数进行去重，防止通知刷屏
-const urlObj = reqUrl.split('?')[0];
-const cacheKey = "LIQUID_LINK_LAST";
-if ($persistentStore.read(cacheKey) === urlObj) {
-    $done({});
-    return;
+// 记录所有该域名下的请求路径（去重）
+const path = reqUrl.split('?')[0];
+const cacheKey = "FINAL_CHECK";
+if ($persistentStore.read(cacheKey) === path) {
+    $done({}); return;
 }
-$persistentStore.write(urlObj, cacheKey);
+$persistentStore.write(path, cacheKey);
 
-// 尝试作为普通视频链接发送给 SenPlayer
-const jumpUrl = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(reqUrl);
-
-$notification.post(
-  "🎯 捕获到动态流接口",
-  "域名: api.liquidlink.cn",
-  "点击尝试唤起播放器，如黑屏则说明资源已加密",
-  { "openUrl": jumpUrl, "clipboard": reqUrl }
-);
-
+// 只要是该域名下的链接，一律弹窗，咱们人工筛选
+$notification.post("捕获到资源", "路径: " + path, reqUrl, { "clipboard": reqUrl });
 $done({});
