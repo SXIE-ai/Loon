@@ -1,39 +1,37 @@
 const reqUrl = $request.url;
 
-// 1. 基础过滤：匹配任何包含 029xxj.com 的 URL，不管它是 u1、u2 还是没前缀
+// 1. 基础过滤：只要包含 029xxj.com 且是视频格式就抓
 if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
   $done({});
   return;
 }
 
-// 2. 提取视频身份证 (videoId)
-// 我们取 /videos/ 后面那段哈希值，这才是视频的唯一标识
-const videoIdMatch = reqUrl.match(/\/videos\/([^\/]+\/[^\/]+)/i);
-const videoId = videoIdMatch ? videoIdMatch[1] : reqUrl.split('?')[0];
+// 2. 提取“身份证”：直接取问号前面的 URL，这样不管 u1 还是 u2 变了都能识别
+const videoId = reqUrl.split('?')[0].replace(/seg-\d+/i, ""); 
 
 const cacheKey = "JAVDB_ACTIVE_ID";
 const lastVideoId = $persistentStore.read(cacheKey);
 
-// 3. 换片检测
+// 3. 调试日志 (在 Loon 日志里看这个输出)
+console.log("当前视频ID: " + videoId);
+
+// 4. 去重判断
 if (lastVideoId === videoId) {
   $done({});
   return;
 }
 
-// 4. 更新缓存
+// 5. 写入并通知
 $persistentStore.write(videoId, cacheKey);
 
-// 5. Scheme 处理 (SenPlayer)
 const scheme = ($argument.sch || "").trim();
 const jumpUrl = scheme ? scheme + encodeURIComponent(reqUrl) : reqUrl;
 
-// 6. 弹窗通知
 $notification.post(
   "🎬 JavDB 捕获成功",
-  "识别到新视频，点击跳转 SenPlayer",
+  "点击跳转 SenPlayer",
   reqUrl,
   {
-    "open-url": jumpUrl, // 兼容某些版本的 key
     "openUrl": jumpUrl,
     "clipboard": reqUrl
   }
