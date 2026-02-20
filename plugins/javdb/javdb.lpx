@@ -4,7 +4,7 @@ scheme = input, "", tag=自定义Scheme, desc=选填 (例如 myplayer://play?url
 encode = select, "auto", "yes", "no", tag=URL编码, desc=是否对播放地址编码 (auto=根据播放器自动判断)。SenPlayer: 直接播放 | SenPlayer-dl: 下载模式，自动添加文件名.mp4
 
 [Script]
-http-request ^https?:\/\/u1\.029xxj\.com\/.* script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/javdb/javdb.js, tag=JavDB视频捕获
+http-request ^https?:\/\/api\.liquidlink\.cn\/.* script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/javdb/javdb.js, tag=JavDB视频捕获
 
 [MitM]
 hostname = *.029xxj.com
