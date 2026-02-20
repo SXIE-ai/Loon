@@ -76,7 +76,7 @@ DOMAIN,pgdt.gtimg.cn,REJECT
 DOMAIN,tpns.qq.com,REJECT
 
 # 腾讯视频广告/统计子域
-DOMAIN,vv6.video.qq.com,REJECT
+# DOMAIN,vv6.video.qq.com,REJECT
 
 # 广点通整站广告域名
 DOMAIN-SUFFIX,gdt.qq.com,REJECT
