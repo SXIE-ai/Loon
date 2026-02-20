@@ -1,2 +1,7 @@
+
+
 [Script]
-http-request (?i)\.(m3u8|mp4|webm)(?:\?|$) script-path=https://你的地址/javdb-to-senplayer.js, tag=JavDB视频捕获
+http-request (?i)\.(m3u8|mp4|webm)(?:\?|$) script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/javdb/javdb.js, tag=JavDB视频捕获
+
+[MitM]
+hostname =*.cloudfront.net,*.akamaized.net,*.fastly.net,*.edgecastcdn.net,*.googlevideo.com,*.cdn77.org,*.llnwd.net,*.javstream.top,*.embedsb.com,*.sbplay.org,*.watchjavonline.com
