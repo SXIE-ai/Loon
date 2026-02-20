@@ -20,10 +20,10 @@ if (!/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
 // 去重：只通知一次
 const cacheKey = "JAVDB_LAST_VIDEO";
 const last = $persistentStore.read(cacheKey);
-// if (last) {
-//   $done({});
-//   return;
-// }
+ if (last) {
+   $done({});
+   return;
+ }
 
 // 写入标记
 $persistentStore.write(reqUrl, cacheKey);
