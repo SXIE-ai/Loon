@@ -1,37 +1,28 @@
 const reqUrl = (typeof $request !== "undefined") ? $request.url : null;
-const arg = (typeof $argument !== "undefined") ? $argument : "";
 
-if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.(ts|m3u8)(\?|$)/i.test(reqUrl)) {
+// 只要是这个刷屏域名的请求都拦截看一眼
+if (!reqUrl || !/liquidlink\.cn/i.test(reqUrl)) {
     $done({});
     return;
 }
 
-// --- 暴力合成逻辑 ---
-// 把 seg-xxx.ts 替换成 index.m3u8，这通常是该架构下的主索引地址
-let m3u8Url = reqUrl.replace(/seg-\d+.*\.ts/i, "index.m3u8");
-
-// 去重，防止同一个视频反复弹
-const videoId = m3u8Url.split('?')[0];
-const cacheKey = "JAVDB_FINAL_M3U8";
-if ($persistentStore.read(cacheKey) === videoId) {
+// 提取核心参数进行去重，防止通知刷屏
+const urlObj = reqUrl.split('?')[0];
+const cacheKey = "LIQUID_LINK_LAST";
+if ($persistentStore.read(cacheKey) === urlObj) {
     $done({});
     return;
 }
-$persistentStore.write(videoId, cacheKey);
+$persistentStore.write(urlObj, cacheKey);
 
-// 解析跳转播放器 (维持之前的墨鱼架构兼容)
-let playerCode = "SenPlayer";
-if (typeof arg === 'string' && arg.startsWith('[')) {
-    playerCode = arg.slice(1, -1).split(',')[0].trim();
-}
-
-const jumpUrl = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(m3u8Url);
+// 尝试作为普通视频链接发送给 SenPlayer
+const jumpUrl = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(reqUrl);
 
 $notification.post(
-  "🎬 JavDB 智能合成索引",
-  "尝试通过切片推导 m3u8，点击播放",
-  m3u8Url,
-  { "openUrl": jumpUrl }
+  "🎯 捕获到动态流接口",
+  "域名: api.liquidlink.cn",
+  "点击尝试唤起播放器，如黑屏则说明资源已加密",
+  { "openUrl": jumpUrl, "clipboard": reqUrl }
 );
 
 $done({});
