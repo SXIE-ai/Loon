@@ -1,47 +1,37 @@
-// 当前请求 URL
 const reqUrl = $request.url;
-if (!reqUrl) {
+if (!reqUrl || !/u1\.029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
   $done({});
   return;
 }
 
-// 仅处理 JavDB 视频资源
-if (!/u1\.029xxj\.com/i.test(reqUrl)) {
+const cacheKey = "JAVDB_LAST_NOTIFY_TIME";
+const lastNotifyTime = $persistentStore.read(cacheKey);
+const now = Date.now();
+
+// 如果距离上次通知不到 300 秒（5分钟），就静默退出
+if (lastNotifyTime && (now - parseInt(lastNotifyTime) < 300000)) {
   $done({});
   return;
 }
 
-// 只关心播放资源
-if (!/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
-  $done({});
-  return;
-}
+// 写入当前时间戳
+$persistentStore.write(now.toString(), cacheKey);
 
-// --- 这里是覆盖后的去重逻辑 ---
-const cacheKey = "JAVDB_LAST_VIDEO";
-const lastUrl = $persistentStore.read(cacheKey);
+// 修复 $argument 报错
+let scheme = "";
+try {
+  if (typeof $argument !== "undefined" && $argument) {
+    // 兼容 sch=xxx 或直接填字符串的情况
+    scheme = typeof $argument === "string" ? $argument : ($argument.sch || "");
+  }
+} catch (e) {}
 
-if (lastUrl === reqUrl) {
-  // 如果当前请求的切片或视频和上一次完全一样，就静默退出
-  $done({});
-  return;
-}
+const jumpUrl = scheme ? scheme.trim() + encodeURIComponent(reqUrl) : reqUrl;
 
-// 写入当前 URL，供下次对比（确保换片后能再次通知）
-$persistentStore.write(reqUrl, cacheKey);
-// --- 覆盖结束 ---
-
-// Scheme（SenPlayer / MKVPiP）
-const scheme = ($argument.sch || "").trim();
-const jumpUrl = scheme
-  ? scheme + encodeURIComponent(reqUrl)
-  : reqUrl;
-
-// 通知
 $notification.post(
   "🎬 JavDB 捕获到视频",
   "点击跳转播放器",
-  reqUrl,
+  "已捕获最新资源，5分钟内不再重复提醒",
   {
     openUrl: jumpUrl,
     clipboard: reqUrl
