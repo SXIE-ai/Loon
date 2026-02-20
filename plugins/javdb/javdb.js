@@ -1,40 +1,41 @@
 const reqUrl = $request.url;
-if (!reqUrl || !/u1\.029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
+
+// 1. 基础过滤：匹配任何包含 029xxj.com 的 URL，不管它是 u1、u2 还是没前缀
+if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
   $done({});
   return;
 }
 
-const cacheKey = "JAVDB_LAST_NOTIFY_TIME";
-const lastNotifyTime = $persistentStore.read(cacheKey);
-const now = Date.now();
+// 2. 提取视频身份证 (videoId)
+// 我们取 /videos/ 后面那段哈希值，这才是视频的唯一标识
+const videoIdMatch = reqUrl.match(/\/videos\/([^\/]+\/[^\/]+)/i);
+const videoId = videoIdMatch ? videoIdMatch[1] : reqUrl.split('?')[0];
 
-// 如果距离上次通知不到 300 秒（5分钟），就静默退出
-if (lastNotifyTime && (now - parseInt(lastNotifyTime) < 300000)) {
+const cacheKey = "JAVDB_ACTIVE_ID";
+const lastVideoId = $persistentStore.read(cacheKey);
+
+// 3. 换片检测
+if (lastVideoId === videoId) {
   $done({});
   return;
 }
 
-// 写入当前时间戳
-$persistentStore.write(now.toString(), cacheKey);
+// 4. 更新缓存
+$persistentStore.write(videoId, cacheKey);
 
-// 修复 $argument 报错
-let scheme = "";
-try {
-  if (typeof $argument !== "undefined" && $argument) {
-    // 兼容 sch=xxx 或直接填字符串的情况
-    scheme = typeof $argument === "string" ? $argument : ($argument.sch || "");
-  }
-} catch (e) {}
+// 5. Scheme 处理 (SenPlayer)
+const scheme = ($argument.sch || "").trim();
+const jumpUrl = scheme ? scheme + encodeURIComponent(reqUrl) : reqUrl;
 
-const jumpUrl = scheme ? scheme.trim() + encodeURIComponent(reqUrl) : reqUrl;
-
+// 6. 弹窗通知
 $notification.post(
-  "🎬 JavDB 捕获到视频",
-  "点击跳转播放器",
-  "已捕获最新资源，5分钟内不再重复提醒",
+  "🎬 JavDB 捕获成功",
+  "识别到新视频，点击跳转 SenPlayer",
+  reqUrl,
   {
-    openUrl: jumpUrl,
-    clipboard: reqUrl
+    "open-url": jumpUrl, // 兼容某些版本的 key
+    "openUrl": jumpUrl,
+    "clipboard": reqUrl
   }
 );
 
