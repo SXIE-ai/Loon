@@ -7,4 +7,4 @@ encode = select, "auto", "yes", "no", tag=URL编码, desc=是否对播放地址�
 http-request (?i)\.(m3u8|mp4|webm)(?:\?|$) script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/javdb/javdb.js, tag=JavDB视频捕获
 
 [MitM]
-hostname =*.cloudfront.net,*.akamaized.net,*.fastly.net,*.edgecastcdn.net,*.googlevideo.com,*.cdn77.org,*.llnwd.net,*.javstream.top,*.embedsb.com,*.sbplay.org,*.watchjavonline.com
+hostname = u1.029xxj.com,*.029xxj.com,*.cloudfront.net,*.akamaized.net,*.fastly.net,*.cdn77.org,*.edgecastcdn.net
