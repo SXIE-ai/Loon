@@ -1,0 +1,2 @@
+[Script]
+http-request (?i)\.(m3u8|mp4|webm)(?:\?|$) script-path=https://你的地址/javdb-to-senplayer.js, tag=JavDB视频捕获
