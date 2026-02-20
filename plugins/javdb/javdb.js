@@ -17,16 +17,19 @@ if (!/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
   return;
 }
 
-// 去重：只通知一次
+// --- 这里是覆盖后的去重逻辑 ---
 const cacheKey = "JAVDB_LAST_VIDEO";
-const last = $persistentStore.read(cacheKey);
- if (last) {
-   $done({});
-   return;
- }
+const lastUrl = $persistentStore.read(cacheKey);
 
-// 写入标记
+if (lastUrl === reqUrl) {
+  // 如果当前请求的切片或视频和上一次完全一样，就静默退出
+  $done({});
+  return;
+}
+
+// 写入当前 URL，供下次对比（确保换片后能再次通知）
 $persistentStore.write(reqUrl, cacheKey);
+// --- 覆盖结束 ---
 
 // Scheme（SenPlayer / MKVPiP）
 const scheme = ($argument.sch || "").trim();
