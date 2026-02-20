@@ -2,61 +2,47 @@
 const reqUrl = (typeof $request !== "undefined") ? $request.url : null;
 const arg = (typeof $argument !== "undefined") ? $argument : "";
 
-// 基础过滤
-if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.(m3u8|mp4|ts)(\?|$)/i.test(reqUrl)) {
-  $done({});
-  return;
+// 2. 核心逻辑：我们只要 m3u8，不要 ts 碎片
+if (!reqUrl || !/029xxj\.com/i.test(reqUrl) || !/\.m3u8(\?|$)/i.test(reqUrl)) {
+    // 如果是 .ts 请求，静默放行，不弹通知，不干扰播放器
+    $done({});
+    return;
 }
 
-// 2. 去重逻辑 (防止 ts 切片刷屏)
-const videoIdMatch = reqUrl.match(/\/videos\/([^\/]+\/[^\/]+)/i);
-const videoId = videoIdMatch ? videoIdMatch[1] : reqUrl.split('?')[0].replace(/seg-\d+/i, "");
-const cacheKey = "JAVDB_ACTIVE_ID";
-const lastVideoId = $persistentStore.read(cacheKey);
+// 3. 去重逻辑 (防止同一个 m3u8 反复弹窗)
+const videoId = reqUrl.split('?')[0]; 
+const cacheKey = "JAVDB_ACTIVE_M3U8";
+const lastUrl = $persistentStore.read(cacheKey);
 
-if (lastVideoId === videoId) {
-  $done({});
-  return;
+if (lastUrl === videoId) {
+    $done({});
+    return;
 }
 $persistentStore.write(videoId, cacheKey);
 
-// 3. 【核心修复】：参考墨鱼架构解析 Loon 插件参数
-let playerCode = "SenPlayer"; // 默认代码
+// 4. 解析参数并构建 SenPlayer 跳转链接
+let playerCode = "SenPlayer";
 let customScheme = "";
 
 if (typeof arg === 'string' && arg.startsWith('[') && arg.endsWith(']')) {
-    // 自动剥离 [SenPlayer, , auto] 这种格式
     const inner = arg.slice(1, -1);
     const parts = inner.split(',').map(s => s.trim());
-    if (parts[0]) playerCode = parts[0];     // 获取选中的播放器名
-    if (parts[1]) customScheme = parts[1];   // 获取自定义 Scheme
+    if (parts[0]) playerCode = parts[0];
+    if (parts[1]) customScheme = parts[1];
 }
 
-// 4. 构建跳转 URL
 let jumpUrl = reqUrl;
-
-// 如果有自定义 Scheme 优先使用
-if (customScheme && customScheme !== "") {
+if (customScheme) {
     jumpUrl = customScheme + encodeURIComponent(reqUrl);
-} else {
-    // 根据选择的播放器生成 Scheme
-    const lowCode = playerCode.toLowerCase();
-    if (lowCode.includes("senplayer")) {
-        // SenPlayer 专用播放接口
-        jumpUrl = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(reqUrl);
-    } else if (lowCode.includes("iina")) {
-        jumpUrl = "iina://weblink?url=" + encodeURIComponent(reqUrl);
-    } else if (lowCode.includes("infuse")) {
-        jumpUrl = "infuse://x-callback-url/play?url=" + encodeURIComponent(reqUrl);
-    } else if (lowCode.includes("fileball")) {
-        jumpUrl = "filebox://play?url=" + encodeURIComponent(reqUrl);
-    }
+} else if (playerCode.toLowerCase().includes("senplayer")) {
+    // 使用标准的 SenPlayer 播放协议
+    jumpUrl = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(reqUrl);
 }
 
 // 5. 发送通知
 $notification.post(
-  "🎬 JavDB 捕获成功",
-  "已识别播放器: " + playerCode,
+  "🎬 JavDB 完整资源捕获",
+  "已锁定 m3u8 索引，点击开始播放",
   reqUrl,
   {
     "openUrl": jumpUrl,
