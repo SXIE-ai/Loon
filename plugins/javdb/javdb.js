@@ -1,67 +1,62 @@
 /**
- * JavDB 番号解析跳转 (整合版)
- * 逻辑：提取番号 -> 接口请求 -> 获取 m3u8 -> 唤起播放器
+ * JavDB 番号解析跳转整合版
+ * 适用：Loon (HTTP-REQUEST)
+ * 功能：从 URL 提取番号 -> 请求第三方接口 -> 获取 m3u8 -> 唤起 SenPlayer
  */
 
-const $ = new Env('JavDB番号解析');
+const reqUrl = (typeof $request !== "undefined") ? $request.url : "";
 const arg = (typeof $argument !== "undefined") ? $argument : "";
 
-// 1. 获取当前页面 URL 或请求
-const currentUrl = (typeof $request !== "undefined") ? $request.url : "";
-
-// 2. 提取番号 (针对 JavDB 的 URL 规律)
-// 比如 https://javdb.com/v/XXXXX 或标题中的 ABC-123
-function getID() {
-    let id = "";
-    const urlMatch = currentUrl.match(/\/v\/([a-zA-Z0-9]+)/);
-    if (urlMatch) {
-        id = urlMatch[1];
-    }
-    // 如果 URL 没匹配到，尝试匹配网页标题（如果是脚本注入模式）
-    return id.toUpperCase();
+// 1. 核心逻辑：提取番号 (JavDB URL 规律：/v/XXXXX)
+function getJavID(url) {
+    const match = url.match(/\/v\/([a-zA-Z0-9]+)/);
+    return match ? match[1].toUpperCase() : null;
 }
 
-const videoId = getID();
+const videoId = getJavID(reqUrl);
 
 if (!videoId) {
-    $.done({});
+    $done({});
 } else {
-    // 3. 构造解析接口 (参考仓库中的 API 逻辑)
-    // 注意：这里需要一个有效的解析服务器地址，Pear 脚本通常也是请求类似地址
-    const api_url = `https://pear.zzxu.de/api/movie/DetailInfo?id=${videoId}`; 
+    // 2. 构造接口 (参考仓库 API 逻辑)
+    // 这里使用解析接口获取真实播放地址，避开网页乱码
+    const apiAddr = `https://pear.zzxu.de/api/movie/DetailInfo?id=${videoId}`;
 
-    $.get({
-        url: api_url,
-        headers: { "User-Agent": "Mozilla/5.0" }
-    }, (error, response, data) => {
-        if (!error && data) {
-            try {
-                const res = JSON.parse(data);
-                // 假设返回的数据结构中有 m3u8 地址
-                const m3u8Url = res.data.play_url || res.url; 
+    const request = {
+        url: apiAddr,
+        headers: { "User-Agent": "Mozilla/5.0" },
+        timeout: 5000
+    };
 
-                if (m3u8Url) {
-                    // 4. 解析播放器 Scheme (复用你之前的逻辑)
-                    let playerCode = "SenPlayer";
-                    if (arg.startsWith('[')) {
-                        playerCode = arg.slice(1, -1).split(',')[0].trim();
-                    }
-
-                    const jumpUrl = `SenPlayer://x-callback-url/play?url=${encodeURIComponent(m3u8Url)}`;
-
-                    $.notification.post(
-                        "🎬 JavDB 番号解析成功",
-                        `识别到番号: ${videoId}`,
-                        "点击跳转 SenPlayer 播放",
-                        { "openUrl": jumpUrl }
-                    );
-                } else {
-                    console.log("解析成功但未找到播放地址");
-                }
-            } catch (e) {
-                console.log("解析失败: " + e);
-            }
+    $httpClient.get(request, (error, response, data) => {
+        if (error || !data) {
+            console.log("解析请求失败: " + error);
+            $done({});
+            return;
         }
-        $.done({});
+
+        try {
+            const res = JSON.parse(data);
+            // 提取播放地址 (根据实际 API 返回结构调整)
+            const m3u8Url = res.data?.play_url || res.url;
+
+            if (m3u8Url) {
+                // 3. 构造播放器跳转 (适配你的 SenPlayer 设置)
+                let playerScheme = "SenPlayer://x-callback-url/play?url=";
+                const finalJump = playerScheme + encodeURIComponent(m3u8Url);
+
+                $notification.post(
+                    "🎬 番号解析成功: " + videoId,
+                    "已锁定真实 m3u8 地址",
+                    "点击立即唤起播放器",
+                    { "openUrl": finalJump }
+                );
+            } else {
+                console.log("API 未返回有效地址");
+            }
+        } catch (e) {
+            console.log("JSON 解析异常: " + e);
+        }
+        $done({});
     });
 }
