@@ -1,0 +1,11 @@
+# > 红果短剧 (番茄短剧) 视频流分流
+DOMAIN-SUFFIX, pstatp.com, 
+DOMAIN-SUFFIX, byteimg.com, 
+DOMAIN-SUFFIX, bdurl.net, 
+DOMAIN-SUFFIX, bytedance.com, 
+DOMAIN-SUFFIX, bytecdntp.com, 
+DOMAIN-KEYWORD, snssdk, 
+DOMAIN-KEYWORD, amemv, 
+DOMAIN-KEYWORD, video-modules, 
+DOMAIN-KEYWORD, volces, 
+
