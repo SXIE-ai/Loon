@@ -1,62 +1,44 @@
 /**
- * JavDB 番号解析跳转整合版
- * 适用：Loon (HTTP-REQUEST)
- * 功能：从 URL 提取番号 -> 请求第三方接口 -> 获取 m3u8 -> 唤起 SenPlayer
+ * JavDB 强制捕获脚本
+ * 触发条件：只要检测到 u1.029xxj.com 域名下的视频流量
  */
 
 const reqUrl = (typeof $request !== "undefined") ? $request.url : "";
-const arg = (typeof $argument !== "undefined") ? $argument : "";
 
-// 1. 核心逻辑：提取番号 (JavDB URL 规律：/v/XXXXX)
-function getJavID(url) {
-    const match = url.match(/\/v\/([a-zA-Z0-9]+)/);
-    return match ? match[1].toUpperCase() : null;
-}
-
-const videoId = getJavID(reqUrl);
-
-if (!videoId) {
+// 1. 基础校验：必须包含目标域名和视频特征
+if (!reqUrl || !/u1\.029xxj\.com/i.test(reqUrl)) {
     $done({});
-} else {
-    // 2. 构造接口 (参考仓库 API 逻辑)
-    // 这里使用解析接口获取真实播放地址，避开网页乱码
-    const apiAddr = `https://pear.zzxu.de/api/movie/DetailInfo?id=${videoId}`;
-
-    const request = {
-        url: apiAddr,
-        headers: { "User-Agent": "Mozilla/5.0" },
-        timeout: 5000
-    };
-
-    $httpClient.get(request, (error, response, data) => {
-        if (error || !data) {
-            console.log("解析请求失败: " + error);
-            $done({});
-            return;
-        }
-
-        try {
-            const res = JSON.parse(data);
-            // 提取播放地址 (根据实际 API 返回结构调整)
-            const m3u8Url = res.data?.play_url || res.url;
-
-            if (m3u8Url) {
-                // 3. 构造播放器跳转 (适配你的 SenPlayer 设置)
-                let playerScheme = "SenPlayer://x-callback-url/play?url=";
-                const finalJump = playerScheme + encodeURIComponent(m3u8Url);
-
-                $notification.post(
-                    "🎬 番号解析成功: " + videoId,
-                    "已锁定真实 m3u8 地址",
-                    "点击立即唤起播放器",
-                    { "openUrl": finalJump }
-                );
-            } else {
-                console.log("API 未返回有效地址");
-            }
-        } catch (e) {
-            console.log("JSON 解析异常: " + e);
-        }
-        $done({});
-    });
+    return;
 }
+
+// 2. 提取番号 (从 URL 路径中智能匹配，JavDB 的路径通常包含资源 ID)
+// 路径示例：.../videos/2b/2b9ce...
+const pathParts = reqUrl.split('/');
+const videoId = pathParts.length > 5 ? pathParts[5].substring(0, 8).toUpperCase() : "未知番号";
+
+// 3. 去重逻辑：5秒内同一个资源只跳一次通知
+const cacheKey = "JAV_NOTIFY_LIMIT";
+const lastId = $persistentStore.read(cacheKey);
+if (lastId === videoId) {
+    $done({});
+    return;
+}
+$persistentStore.write(videoId, cacheKey);
+
+// 4. 构建跳转链接 (直接尝试播放当前截获的流或推导索引)
+// 我们尝试推导 index.m3u8，如果黑屏，至少剪贴板里有原始 ts 链接供你分析
+const m3u8Url = reqUrl.replace(/seg-\d+.*\.ts/i, "index.m3u8");
+const jumpUrl = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(m3u8Url);
+
+// 5. 立即发送通知
+$notification.post(
+  "🎯 已捕获 JavDB 流量",
+  "识别到资源: " + videoId,
+  "点击跳转 SenPlayer，如黑屏请检查网页是否支持外链",
+  { 
+    "openUrl": jumpUrl,
+    "clipboard": m3u8Url 
+  }
+);
+
+$done({});
