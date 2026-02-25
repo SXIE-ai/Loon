@@ -1,14 +1,14 @@
 # > 红果短剧 (番茄短剧) 视频流分流
-DOMAIN-SUFFIX, pstatp.com, 
-DOMAIN-SUFFIX, byteimg.com, 
-DOMAIN-SUFFIX, bdurl.net, 
-DOMAIN-SUFFIX, bytedance.com, 
-DOMAIN-SUFFIX, bytecdntp.com, 
-DOMAIN-SUFFIX, qznovelvod.com,
-DOMAIN-SUFFIX, toutiaov.com
-DOMAIN-SUFFIX, qznovelvod.com
-DOMAIN-KEYWORD, snssdk, 
-DOMAIN-KEYWORD, amemv, 
-DOMAIN-KEYWORD, video-modules, 
-DOMAIN-KEYWORD, volces, 
+DOMAIN-SUFFIX, pstatp.com, PROXY
+DOMAIN-SUFFIX, byteimg.com, PROXY
+DOMAIN-SUFFIX, bdurl.net, PROXY
+DOMAIN-SUFFIX, bytedance.com, PROXY
+DOMAIN-SUFFIX, bytecdntp.com, PROXY
+DOMAIN-SUFFIX, qznovelvod.com,PROXY
+DOMAIN-SUFFIX, toutiaov.com, PROXY
+DOMAIN-SUFFIX, qznovelvod.com,PROXY
+DOMAIN-KEYWORD, snssdk, PROXY
+DOMAIN-KEYWORD, amemv, PROXY
+DOMAIN-KEYWORD, video-modules, PROXY
+DOMAIN-KEYWORD, volces, PROXY
 
