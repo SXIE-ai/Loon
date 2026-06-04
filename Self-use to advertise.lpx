@@ -9,6 +9,8 @@
 #!date=2024-12-20 12:00:00
 
 [Rule]
+# javDB开屏广告
+^https?:\/\/tp\.cmastd\.com\/.*\/ads\/.* url reject-img
 # QQ 音乐开屏 / 资源
 DOMAIN,music.y.qq.com,REJECT
 DOMAIN,imgcache.qq.com,REJECT
