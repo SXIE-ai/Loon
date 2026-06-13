@@ -1,0 +1,12 @@
+#!name=小熊油耗
+#!desc=解锁VIP 会员
+#!author=XIE-ai[https://github.com/SXIE-ai]
+#!homepage=https://github.com/SXIE-ai/Loon
+#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/icon/icons/quguanggao.png
+#!tag=解锁会员
+#!system=iOS,iPadOS,macOS
+#!loon_version=3.4.0
+#!date=2026-6-13 12:00:00
+
+[Script]
+http-response ^http[s]?:\/\/www.xiaoxiongyouhao.com\/api\/vip\/index.php script-path=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/xiaoxio/xiaoxioyouhao.js, requires-body=true, timeout=60, tag=xiaoxiongyouhao
