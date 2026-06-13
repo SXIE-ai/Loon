@@ -2,7 +2,7 @@
 #!desc=个人使用的去广告规则，包含银行、快递、腾讯等
 #!author=XIE-ai[https://github.com/SXIE-ai]
 #!homepage=https://github.com/SXIE-ai/Loon
-#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/lowang.plugin/IMG_3748.png
+#!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/icon/icons/quguanggao.png
 #!tag=去广告
 #!system=iOS,iPadOS,macOS
 #!loon_version=3.2.0
