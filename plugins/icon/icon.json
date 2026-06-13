@@ -1,6 +1,6 @@
 
 {"name": "自用图标库",
- "description": "自用收集 loon 图标，全部为 120px 如有侵权请联系删除，版权属于原作者和商标持有人。", 
+ "description": "自用收集 loon 图标，格式为 120px144px 如有侵权请联系删除，版权属于原作者和商标持有人。", 
  "icons": [
 {"name": "loon1",
   "url": "https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/icon/icons/loon1.PNG"},
@@ -50,9 +50,23 @@
 {"name": "xunlei",
   "url": "https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/icon/icons/xunlei.PNG"},
 
+  {"name": "Telegram",
+  "url": "https://raw.githubusercontent.com/SXIE-ai/Loon/refs/heads/main/plugins/icon/icons/Telegram.PNG"},
+
+  {"name": "AppRaven",
+  "url": "https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/icon/icons/AppRaven.png"},
+
+
+
+
+
 
   
 
+
+
+
+  
 
 
   
