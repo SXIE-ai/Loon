@@ -19,10 +19,10 @@ WT = input,"25 2-23/6 * * *",tag= WeTalk 定时
 
 [Script]
 # WeTalk 获取 Cookie
-http-request ^https://api.wetalkapp.com/app/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/WeTalk.js, require-body=false,tag=WeTalk 获取 Cookie,enable={WeTalk_enable}
+http-request ^https://api.wetalkapp.com/app/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/WeTalk.js, timeout=600,tag=WeTalk 获取 Cookie,enable={WeTalk_enable}
 
 # PingMe 获取 Cookie
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, require-body=false,tag=PingMe 获取 Cookie,enable={PingMe_enable}
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, timeout=600,tag=PingMe 获取 Cookie,enable={PingMe_enable}
 
 # PingMe 自动签到任务
 cron {PM} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js,tag=PingMe 签到, timeout=60
