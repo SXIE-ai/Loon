@@ -1,25 +1,37 @@
-#!name=WeTalk
+#!name=PingMe & WeTalk
 #!desc=自动化签到➕视频奖励
+#!date=2026-6-19
 #!openUrl=https://apps.apple.com/us/app/id455447012
 #!author=SXIE-ai[https://github.com/SXIE-ai]
 #!homepage=https://github.com/SXIE-ai/loon/plugins
 #!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/icon/icons/WeTalk.png
 #!tag=签到
 #!loon_version=3.4.0（962)
-#!date=2026-6-19
+
+[Rule]
+DOMAIN, api.pingmeapp.net, PROXY
 
 [Argument]
 WeTalk_enable = switch,true,false,tag= WeTalk 获取 Cookie
-  
+PingMe_enable = switch,true,false,tag= PingMe 获取 Cookie
+PM = input,"20 2-23/6 * * *",tag= PingMe 定时
+WT = input,"25 2-23/6 * * *",tag= WeTalk 定时
+
 [Script]
 # WeTalk 获取 Cookie
-http-request https://api.wetalkapp.com/app/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/WeTalk.js, require-body=false,tag=WeTalk获取 Cookie,enable={WeTalk_enable}
+http-request ^https://api.wetalkapp.com/app/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/WeTalk.js, require-body=false,tag=WeTalk 获取 Cookie,enable={WeTalk_enable}
+
+# PingMe 获取 Cookie
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, require-body=false,tag=PingMe 获取 Cookie,enable={PingMe_enable}
+
+# PingMe 自动签到任务
+cron {PM} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js,tag=PingMe 签到, timeout=60
 
 # WeTalk 自动签到任务
-cron "25 2-23/6 * * *" script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/WeTalk.js, tag=WeTalk签到, timeout=60
+cron {WT} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/WeTalk.js, tag=WeTalk签到, timeout=60
 
   
 
 [MITM]
-hostname = api.wetalkapp.com
+hostname = api.wetalkapp.com,api.pingmeapp.net
 
