@@ -6,7 +6,7 @@
 #!homepage=https://github.com/SXIE-ai/loon/plugins
 #!icon=https://raw.githubusercontent.com/SXIE-ai/Loon/main/plugins/icon/icons/WeTalk.png
 #!tag=签到
-#!loon_version=3.4.0（962)
+#!loon_version=3.2.4（787）
 
 [Rule]
 DOMAIN, api.pingmeapp.net, PROXY
