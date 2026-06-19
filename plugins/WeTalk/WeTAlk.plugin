@@ -8,23 +8,20 @@
 #!loon_version=3.2.4（787）
 
 [Argument]
-PingMe = switch,true,tag=PingMe 获取 Cookie
-WeTalk = switch,true,tag=WeTalk 获取 Cookie
-PM = input,"0 8,20 * * *",tag= PingMe 定时
-WT = input,"30 8,20 * * *",tag= WeTalk 定时
+arg1 = switch,true,tag=PingMe任务
+arg2 = switch,true,tag=WeTalk任务
+arg3 = switch,true,tag=PM'token
+arg4 = switch,true,tag=WT'token
+arg5 = input,"0 8,20 * * *",tag=PM定时
+arg6 = input,"30 8,20 * * *",tag=WT定时
 
 [Rule]
 DOMAIN, api.pingmeapp.net, PROXY
 
 [Script]
-cron {PM} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, timeout=600,enable= tag=PingMe签到任务
-cron {WT} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/WeTalk.js, timeout=600,enable= tag=WeTalk签到任务
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, timeout=300, enable = {PingMe}, tag=PingMe获取 Cookie
-http-request ^https:\/\/api\.wetalkapp\.com\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/WeTalk.js, timeout=300, enable = {WeTalk}, tag=WeTalk获取 Cookie
-
-
-
+cron {arg5} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, timeout=600,enable= {arg1},tag=PingMe签到任务
+cron {arg6} script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/WeTalk.js, timeout=600,enable= {arg2},tag=WeTalk签到任务
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/PingMe.js, timeout=300, enable = {arg3}, tag=PingMe (token）
+http-request ^https:\/\/api\.wetalkapp\.com\/app\/queryBalanceAndBonus script-path=https://luckyday.kdns.fr/refs/heads/main/Script%20/Tasks/WeTalk.js, timeout=300, enable = {arg4}, tag=WeTalk（token）
 [MITM]
 hostname = api.pingmeapp.net, api.wetalkapp.com
-  
-
