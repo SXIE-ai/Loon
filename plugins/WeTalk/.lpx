@@ -12,8 +12,8 @@
 DOMAIN, api.pingmeapp.net, PROXY
 
 [Argument]
-WeTalk_enable = switch,true,false,tag= WeTalk 获取 Cookie
-PingMe_enable = switch,true,false,tag= PingMe 获取 Cookie
+WeTalk_enable = switch,true,tag= WeTalk 获取 Cookie
+PingMe_enable = switch,true,tag= PingMe 获取 Cookie
 PM = input,"20 2-23/6 * * *",tag= PingMe 定时
 WT = input,"25 2-23/6 * * *",tag= WeTalk 定时
 
