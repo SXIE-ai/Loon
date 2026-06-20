@@ -1,4 +1,24 @@
- /**
+ */
+
+////////////////////////////////
+const $ = new API("获取Cookie或Token通用脚本");
+const req_url = $request.url;
+const req_headers = $request.headers;
+const req_body = $request.body;
+let rsp_body = "{}";
+// 检查 $response 是否已定义
+if (typeof $response !== 'undefined' && $response !== null) {
+  // 如果 $response 已定义且不为 null，则使用 $response.body
+  rsp_body = $response.body;
+}
+
+// 遍历头部对象并打印每个字段和值
+console.log("遍历头部对象并打印每个字段和值开始❇️");
+for (const headerField in req_headers) {
+  console.log(`${headerField}: ${req_headers[headerField]}`);
+}
+console.log("遍历头部对象并打印每个字段和值结束🍓");
+/**
    * PingMe
    */
   if (req_url.includes("/app/queryBalanceAndBonus")) {
