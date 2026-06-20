@@ -10,8 +10,8 @@
 [Argument]
 PingMe = switch,true,tag=PingMe 获取 Cookie
 WeTalk = switch,true,tag=WeTalk 获取 Cookie
-PM = input,"0 8,20 * * *",tag= PingMe 定时
-WT = input,"30 8,20 * * *",tag= WeTalk 定时
+PM = input,"25 2-23/6 * * *",tag= PingMe 定时
+WT = input,"20 2-23/6 * * *",tag= WeTalk 定时
 
 [Rule]
 DOMAIN, api.pingmeapp.net, PROXY
