@@ -1,3 +1,13 @@
+#!name=自用分流
+#!desc=分流
+#!author=@SXIE-ai
+#!homepage=https://github.com/SXIE-ai/Loon/tree/main
+#!date=2026-6-22
+#!icon= https://raw.githubusercontent.com/SXIE-ai/Quantumult-X/refs/heads/main/plugins/icon/fenliu.PNG
+#!tag=分流
+#!loon_version=3.4.0(962)
+
+[Rules]
 ;  CF 优选直连
 host-suffix , ccwu.cc, direct
 host-suffix, 090227.xyz, direct
@@ -22,20 +32,20 @@ host,downloaddispatch.itunes.apple.com,direct
 host,dns.weixin.qq.com,direct
 host,dns.weixin.qq.com.cn,direct
 ; 开启专用代理
-;host,mask.icloud.com,🕹 终极清单
-;host,mask-h2.icloud.com,🕹 终极清单
+;host,mask.icloud.com,终极清单
+;host,mask-h2.icloud.com,终极清单
 ; 系统更新下载
 host-suffix, updates.cdn-apple.com,  规则时延优选
 
 ; pear2 下载/订阅分发
-host-suffix, pear2.cc,日本时延优选
+host-suffix, pear2.cc,规则时延优选
 ; javdb下载
-host-suffix, 029xxj.com,日本时延优选
+host-suffix, 029xxj.com,规则时延优选
 ; INS AV 下载
-host-suffix,ut.lnh7.com,日本时延优选
+host-suffix,ut.lnh7.com,规则时延优选
 
 
 
 
 ; xx9.com下载
-host,tigerscos.babeshop.xyz,日本时延优选
+host,tigerscos.babeshop.xyz,规则时延优选
