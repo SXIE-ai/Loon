@@ -7,7 +7,7 @@
 #!tag=分流
 #!loon_version=3.4.0(962)
 
-[Rules]
+[rules]
 ;  CF 优选直连
 host-suffix , ccwu.cc, direct
 host-suffix, 090227.xyz, direct
