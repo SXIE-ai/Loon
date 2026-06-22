@@ -39,7 +39,7 @@ if (
     headers: normalizeHeaderNameMap(req_headers || {})
   };
 
-  $.write(JSON.stringify(accounts), "#wetalk_accounts_v1");
+  $.write(JSON.stringify(capture), "#wetalk_accounts_v1");
 
   $.notify(
     "WeTalk 获取成功✅",
