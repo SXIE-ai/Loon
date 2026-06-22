@@ -8,9 +8,6 @@
 #!loon_version=3.4.0(962)
 
 [Rule]
-# 中石化直连
-DOMAIN-SUFFIX,sinopecsales.com,direct
-
 # CF 优选直连
 DOMAIN-SUFFIX, ccwu.cc, direct
 DOMAIN-SUFFIX, 090227.xyz, direct
