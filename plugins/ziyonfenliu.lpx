@@ -8,6 +8,9 @@
 #!loon_version=3.4.0(962)
 
 [Rule]
+# emby分流
+host-suffix,caop.zzm.li,规则时延优选
+
 # CF 优选直连
 DOMAIN-SUFFIX, ccwu.cc, direct
 DOMAIN-SUFFIX, 090227.xyz, direct
