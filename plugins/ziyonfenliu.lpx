@@ -9,46 +9,47 @@
 
 [Rules]
 # CF 优选直连
-host-suffix , ccwu.cc, direct
-host-suffix, 090227.xyz, direct
-host-suffix, ipapi.is, direct
-host-suffix, hidns.VIP, direct
+DOMAIN-SUFFIX, ccwu.cc, direct
+DOMAIN-SUFFIX, 090227.xyz, direct
+DOMAIN-SUFFIX, ipapi.is, direct
+DOMAIN-SUFFIX, hidns.VIP, direct
 
 # App Store 代理
 # 下载 CDN（核心）
-host-suffix, mzstatic.com, 规则时延优选
-host-suffix, itunes.apple.com, 规则时延优选
+DOMAIN-SUFFIX, mzstatic.com, 规则时延优选
+DOMAIN-SUFFIX, itunes.apple.com, 规则时延优选
 
 
 # QQ音乐下载
-host-suffix, stream.qqmusic.qq.com, 规则时延优选
-host-suffix, aqqmusic.tc.qq.com, 规则时延优选
-host-suffix, amobile.music.tc.qq.com,规则时延优选
-host,stat.y.qq.com,direct
-host,stat6.y.qq.com,direct
+DOMAIN-SUFFIX, stream.qqmusic.qq.com, 规则时延优选
+DOMAIN-SUFFIX, aqqmusic.tc.qq.com, 规则时延优选
+DOMAIN-SUFFIX, amobile.music.tc.qq.com,规则时延优选
+# QQ音乐显示听歌时长
+DOMAIN,stat.y.qq.com,direct
+DOMAIN,stat6.y.qq.com,direct
 
 # 字节系直连 豆包
-host,downloaddispatch.itunes.apple.com,direct
+DOMAIN,downloaddispatch.itunes.apple.com,direct
 
 # 微信直连
-host,dns.weixin.qq.com,direct
-host,dns.weixin.qq.com.cn,direct
+DOMAIN,dns.weixin.qq.com,direct
+DOMAIN,dns.weixin.qq.com.cn,direct
 
 # 开启专用代理
-#host,mask.icloud.com,终极清单
-#host,mask-h2.icloud.com,终极清单
+#DOMAIN,mask.icloud.com,终极清单
+#DOMAIN,mask-h2.icloud.com,终极清单
 
 # 系统更新下载
-host-suffix, updates.cdn-apple.com,  规则时延优选
+DOMAIN-SUFFIX, updates.cdn-apple.com,  规则时延优选
 
 # pear2 下载/订阅分发
-host-suffix, pear2.cc,规则时延优选
+DOMAIN-SUFFIX, pear2.cc,规则时延优选
 
 # javdb下载
-host-suffix, 029xxj.com,规则时延优选
+DOMAIN-SUFFIX, 029xxj.com,规则时延优选
 
 # INS AV 下载
-host-suffix,ut.lnh7.com,规则时延优选
+DOMAIN-SUFFIX,ut.lnh7.com,规则时延优选
 
 
 
