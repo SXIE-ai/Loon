@@ -34,7 +34,7 @@ try {
       paramsRaw: parseRawQuery(req_url),
       headers: normalizeHeaderNameMap(req_headers || {})
     };
-    $.write(JSON.stringify(capture), '#pingme_capture_v3');
+    $.write(JSON.stringify(capture), '#WeTalk_capture_v3');
     $.notify('WeTalk 获取成功✅', '现在你可以禁用此配置了', '');
     console.log('WeTalk 获取到的内容为：' + req_url);
   }
